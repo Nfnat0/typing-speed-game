@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Timer from './Timer';
 import WordCounter from './WordCounter';
 import { words } from '../words';
