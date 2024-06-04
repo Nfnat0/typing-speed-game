@@ -74,7 +74,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        className="input-field"
+        className="input-field invisible-input"
         ref={inputRef}
       />
     </div>
