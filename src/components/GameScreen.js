@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Timer from './Timer';
 import WordCounter from './WordCounter';
-import { words } from '../words';
+import { sentences } from '../sentences';
 
 const GameScreen = ({ onGameOver, inputRef }) => {
+  const words = sentences[Math.floor(Math.random() * sentences.length)].split(' ');
   const [currentWord, setCurrentWord] = useState('');
   const [remainingWords, setRemainingWords] = useState(words);
   const [time, setTime] = useState(60); // Set the game duration in seconds
