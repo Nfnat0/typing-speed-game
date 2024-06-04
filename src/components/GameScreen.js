@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Timer from './Timer';
 import WordCounter from './WordCounter';
 import { words } from '../words';
@@ -14,7 +14,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
 
   useEffect(() => {
     if (remainingWords.length > 0) {
-      setCurrentWord(remainingWords[0]);
+      setCurrentWord(remainingWords[0].replace(/\s/g, '').toLowerCase());
     } else {
       onGameOver(score, correctLetters, totalLetters, true); // Game cleared
     }
@@ -32,8 +32,9 @@ const GameScreen = ({ onGameOver, inputRef }) => {
   }, [time, onGameOver, score, correctLetters, totalLetters]);
 
   const handleInputChange = (e) => {
-    const value = e.target.value;
+    const value = e.target.value.toLowerCase();
     const lastChar = value[value.length - 1];
+
     setTotalLetters(totalLetters + 1);
 
     if (currentWord.startsWith(inputValue + lastChar)) {
@@ -53,11 +54,21 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     }
   }, [inputRef]);
 
+  const renderWord = () => {
+    return currentWord.split('').map((char, index) => {
+      return (
+        <span key={index} style={{ color: index < inputValue.length ? 'yellow' : 'white' }}>
+          {char}
+        </span>
+      );
+    });
+  };
+
   return (
     <div className="game-screen">
       <Timer time={time} />
       <WordCounter count={remainingWords.length} />
-      <h2>{currentWord}</h2>
+      <h2>{renderWord()}</h2>
       <input
         type="text"
         value={inputValue}
