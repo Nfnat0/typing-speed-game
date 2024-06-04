@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 import StartScreen from './components/StartScreen';
 import GameScreen from './components/GameScreen';
@@ -10,9 +10,13 @@ const App = () => {
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
   const [gameCleared, setGameCleared] = useState(false);
+  const inputRef = useRef(null);
 
   const handleStart = () => {
     setGameState('playing');
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   const handleGameOver = (score, correctLetters, totalLetters, gameCleared) => {
@@ -26,7 +30,7 @@ const App = () => {
   return (
     <div className="app">
       {gameState === 'start' && <StartScreen onStart={handleStart} />}
-      {gameState === 'playing' && <GameScreen onGameOver={handleGameOver} />}
+      {gameState === 'playing' && <GameScreen onGameOver={handleGameOver} inputRef={inputRef} />}
       {gameState === 'result' && <ResultScreen score={score} correctLetters={correctLetters} totalLetters={totalLetters} gameCleared={gameCleared} onRestart={handleStart} />}
     </div>
   );
