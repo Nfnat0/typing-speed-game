@@ -8,6 +8,8 @@ const ResultScreen = ({ score, correctLetters, totalLetters, gameCleared, onRest
       <h1>{gameCleared ? 'GameClear' : 'GameOver'}</h1>
       <p>Your score: {score}</p>
       <p>Accuracy: {percentage}%</p>
+      <p>Total letters entered: {totalLetters}</p>
+      <p>Correct letters: {correctLetters}</p>
       <button onClick={onRestart}>Play Again</button>
     </div>
   );
