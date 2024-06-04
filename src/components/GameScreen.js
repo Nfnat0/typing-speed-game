@@ -9,14 +9,16 @@ const GameScreen = ({ onGameOver }) => {
   const [remainingWords, setRemainingWords] = useState(words);
   const [time, setTime] = useState(60); // Set the game duration in seconds
   const [score, setScore] = useState(0);
+  const [correctLetters, setCorrectLetters] = useState(0);
+  const [totalLetters, setTotalLetters] = useState(0);
 
   useEffect(() => {
     if (remainingWords.length > 0) {
       setCurrentWord(remainingWords[0]);
     } else {
-      onGameOver(score);
+      onGameOver(score, correctLetters, totalLetters, true); // Game cleared
     }
-  }, [remainingWords, score, onGameOver]);
+  }, [remainingWords, score, correctLetters, totalLetters, onGameOver]);
 
   useEffect(() => {
     if (time > 0) {
@@ -25,13 +27,16 @@ const GameScreen = ({ onGameOver }) => {
       }, 1000);
       return () => clearInterval(timer);
     } else {
-      onGameOver(score);
+      onGameOver(score, correctLetters, totalLetters, false); // Time's up
     }
-  }, [time, onGameOver, score]);
+  }, [time, onGameOver, score, correctLetters, totalLetters]);
 
   const handleInputChange = (e) => {
-    if (e.target.value === currentWord) {
+    const value = e.target.value;
+    setTotalLetters(totalLetters + 1);
+    if (value === currentWord) {
       setScore(score + 1);
+      setCorrectLetters(correctLetters + value.length);
       setRemainingWords(remainingWords.slice(1));
       e.target.value = '';
     }
