@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './App.css';
 import StartScreen from './components/StartScreen';
 import GameScreen from './components/GameScreen';
 import ResultScreen from './components/ResultScreen';
