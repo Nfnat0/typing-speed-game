@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Timer from './Timer';
-import WordCounter from './WordCounter';
-import { sentences } from '../sentences';
+import React, { useState, useEffect } from "react";
+import Timer from "./Timer";
+import WordCounter from "./WordCounter";
+import { sentences } from "../sentences";
 
 const GameScreen = ({ onGameOver, inputRef }) => {
-  const words = sentences[Math.floor(Math.random() * sentences.length)].split(' ');
-  const [currentWord, setCurrentWord] = useState('');
+  const words =
+    sentences[Math.floor(Math.random() * sentences.length)].split(" ");
+  const [currentWord, setCurrentWord] = useState("");
   const [remainingWords, setRemainingWords] = useState(words);
   const [time, setTime] = useState(60); // Set the game duration in seconds
   const [score, setScore] = useState(0);
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     if (remainingWords.length > 0) {
-      setCurrentWord(remainingWords[0].replace(/\s/g, '').toLowerCase());
+      setCurrentWord(remainingWords[0].replace(/\s/g, "").toLowerCase());
     } else {
       onGameOver(score, correctLetters, totalLetters, true); // Game cleared
     }
@@ -44,7 +45,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
         setScore(score + 1);
         setCorrectLetters(correctLetters + (inputValue + lastChar).length);
         setRemainingWords(remainingWords.slice(1));
-        setInputValue('');
+        setInputValue("");
       }
     }
   };
@@ -56,9 +57,12 @@ const GameScreen = ({ onGameOver, inputRef }) => {
   }, [inputRef]);
 
   const renderWord = () => {
-    return currentWord.split('').map((char, index) => {
+    return currentWord.split("").map((char, index) => {
       return (
-        <span key={index} style={{ color: index < inputValue.length ? 'yellow' : 'white' }}>
+        <span
+          key={index}
+          style={{ color: index < inputValue.length ? "yellow" : "white" }}
+        >
           {char}
         </span>
       );
