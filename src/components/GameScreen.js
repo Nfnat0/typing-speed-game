@@ -76,7 +76,9 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     <div className="game-screen">
       <Timer time={time} />
       <WordCounter count={remainingWords.length} />
-      <h2>{renderWord()}</h2>
+      <div className="render-word">
+        <h2>{renderWord()}</h2>
+      </div>
       <input
         type="text"
         value={inputValue}
