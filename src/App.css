@@ -1,5 +1,5 @@
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background: linear-gradient(to right, #4facfe, #00f2fe);
   margin: 0;
   padding: 0;
@@ -10,7 +10,9 @@ body {
   color: #fff;
 }
 
-.app, .game-screen, .result-screen {
+.app,
+.game-screen,
+.result-screen {
   background: rgba(0, 0, 0, 0.5);
   padding: 20px;
   border-radius: 10px;
@@ -45,7 +47,9 @@ button:hover {
   background: #4facfe;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: #fff;
 }
 
