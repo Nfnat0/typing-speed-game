@@ -1,4 +1,6 @@
 export const calculateScore = (elapsedTime, totalLetters, correctLetters) => {
     const accuracy = correctLetters / totalLetters;
-    return Math.round((correctLetters / elapsedTime) * accuracy * 10);
+    const accuracyBonus = accuracy * 100;
+    const timeBonus = 100 / elapsedTime;
+    return Math.round(accuracyBonus * timeBonus);
     };
