@@ -1,34 +1,40 @@
-import React, { useState, useEffect } from "react";
-import Timer from "./Timer";
-import WordCounter from "./WordCounter";
-import { sentences } from "../sentences";
-import { calculateScore } from "../scoreCalculator";
+import React, { useState, useEffect, useCallback } from 'react';
+import Timer from './Timer';
+import WordCounter from './WordCounter';
+import { calculateScore } from '../scoreCalculator';
+import { fetchSentence } from '../sentenceFetcher';
 
 const GameScreen = ({ onGameOver, inputRef }) => {
-  const words =
-    sentences[Math.floor(Math.random() * sentences.length)].split(" ");
-  const [currentWord, setCurrentWord] = useState("");
-  const [remainingWords, setRemainingWords] = useState(words);
+  const [originalSentence, setOriginalSentence] = useState('');
+  const [currentSentence, setCurrentSentence] = useState('');
   const [time, setTime] = useState(60); // Set the game duration in seconds
   const [elapsedTime, setElapsedTime] = useState(0);
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    if (remainingWords.length > 0) {
-      setCurrentWord(remainingWords[0].replace(/\s/g, "").toLowerCase());
-    } else {
+    const fetchAndSetSentence = async () => {
+      const sentence = await fetchSentence();
+      setOriginalSentence(sentence);
+      setCurrentSentence(sentence.replace(/\s/g, '').toLowerCase());
+    };
+
+    fetchAndSetSentence();
+  }, []);
+
+  useEffect(() => {
+    if (currentSentence.length === 0 && originalSentence.length > 0) {
       const score = calculateScore(elapsedTime, totalLetters, correctLetters);
       onGameOver(score, correctLetters, totalLetters, true); // Game cleared
     }
-  }, [remainingWords, elapsedTime, totalLetters, correctLetters, onGameOver]);
+  }, [currentSentence, elapsedTime, totalLetters, correctLetters, onGameOver, originalSentence]);
 
   useEffect(() => {
     if (time > 0) {
       const timer = setInterval(() => {
         setTime(time - 1);
-        setElapsedTime(elapsedTime + 1);
+        setElapsedTime(prevElapsedTime => prevElapsedTime + 1);
       }, 1000);
       return () => clearInterval(timer);
     } else {
@@ -37,21 +43,26 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     }
   }, [time, elapsedTime, onGameOver, totalLetters, correctLetters]);
 
-  const handleInputChange = (e) => {
-    const value = e.target.value.toLowerCase();
-    const lastChar = value[value.length - 1];
+  const handleKeyPress = useCallback((e) => {
+    const char = e.key.toLowerCase();
+    setTotalLetters(prevTotalLetters => prevTotalLetters + 1);
 
-    setTotalLetters(totalLetters + 1);
-
-    if (currentWord.startsWith(inputValue + lastChar)) {
-      setInputValue(inputValue + lastChar);
-      if (inputValue + lastChar === currentWord) {
-        setCorrectLetters(correctLetters + (inputValue + lastChar).length);
-        setRemainingWords(remainingWords.slice(1));
-        setInputValue("");
+    if (currentSentence.startsWith(inputValue + char)) {
+      setInputValue(prevInputValue => prevInputValue + char);
+      if (inputValue + char === currentSentence) {
+        setCorrectLetters(prevCorrectLetters => prevCorrectLetters + (inputValue + char).length);
+        setCurrentSentence('');
+        setInputValue('');
       }
     }
-  };
+  }, [currentSentence, inputValue]);
+
+  useEffect(() => {
+    window.addEventListener('keypress', handleKeyPress);
+    return () => {
+      window.removeEventListener('keypress', handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -59,13 +70,15 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     }
   }, [inputRef]);
 
-  const renderWord = () => {
-    return currentWord.split("").map((char, index) => {
+  const renderSentence = () => {
+    let typedIndex = 0;
+    return originalSentence.split('').map((char, index) => {
+      const isSpace = char === ' ';
+      const isTyped = !isSpace && typedIndex < inputValue.length;
+      if (!isSpace) typedIndex++;
+
       return (
-        <span
-          key={index}
-          style={{ color: index < inputValue.length ? "yellow" : "white" }}
-        >
+        <span key={index} style={{ color: isTyped ? 'yellow' : 'white' }}>
           {char}
         </span>
       );
@@ -75,14 +88,12 @@ const GameScreen = ({ onGameOver, inputRef }) => {
   return (
     <div className="game-screen">
       <Timer time={time} />
-      <WordCounter count={remainingWords.length} />
-      <div className="render-word">
-        <h2>{renderWord()}</h2>
-      </div>
+      <WordCounter count={originalSentence.replace(/\s/g, '').length} />
+      <h2>{renderSentence()}</h2>
       <input
         type="text"
         value={inputValue}
-        onChange={handleInputChange}
+        onChange={() => {}}
         className="input-field invisible-input"
         ref={inputRef}
       />
