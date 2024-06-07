@@ -1,7 +1,6 @@
 // GameScreen.js
 import React, { useState, useEffect, useCallback } from "react";
 import Timer from "./Timer";
-import WordCounter from "./WordCounter";
 import { calculateScore } from "../scoreCalculator";
 import { fetchSentence } from "../sentenceFetcher";
 
@@ -14,6 +13,8 @@ const GameScreen = ({ onGameOver, inputRef }) => {
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
   const [inputValue, setInputValue] = useState("");
+  const [initialized, setInitialized] = useState(false);
+  const [mistakes, setMistakes] = useState(0);
 
   // Fetch and set sentence
   useEffect(() => {
@@ -23,14 +24,24 @@ const GameScreen = ({ onGameOver, inputRef }) => {
       setCurrentSentence(sentence.replace(/\s/g, "").toLowerCase());
     };
 
-    fetchAndSetSentence();
-  }, []);
+    if (!initialized) {
+      fetchAndSetSentence();
+      setInitialized(true);
+    }
+  }, [initialized]);
 
   // Handle game end when sentence is completed
   useEffect(() => {
     if (currentSentence.length === 0 && originalSentence.length > 0) {
       const score = calculateScore(elapsedTime, totalLetters, correctLetters);
-      onGameOver(score, correctLetters, totalLetters, true); // Game cleared
+      onGameOver(
+        score,
+        correctLetters,
+        totalLetters,
+        mistakes,
+        elapsedTime,
+        true
+      ); // Game cleared
     }
   }, [
     currentSentence,
@@ -39,6 +50,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     correctLetters,
     onGameOver,
     originalSentence,
+    mistakes,
   ]);
 
   // Timer logic
@@ -51,9 +63,16 @@ const GameScreen = ({ onGameOver, inputRef }) => {
       return () => clearInterval(timer);
     } else {
       const score = calculateScore(elapsedTime, totalLetters, correctLetters);
-      onGameOver(score, correctLetters, totalLetters, false); // Time's up
+      onGameOver(
+        score,
+        correctLetters,
+        totalLetters,
+        mistakes,
+        elapsedTime,
+        false
+      ); // Time's up
     }
-  }, [time, elapsedTime, onGameOver, totalLetters, correctLetters]);
+  }, [time, elapsedTime, onGameOver, totalLetters, correctLetters, mistakes]);
 
   // Handle key press events
   const handleKeyPress = useCallback(
@@ -71,6 +90,8 @@ const GameScreen = ({ onGameOver, inputRef }) => {
           setCurrentSentence("");
           setInputValue("");
         }
+      } else {
+        setMistakes((prevMistakes) => prevMistakes + 1);
       }
     },
     [currentSentence, inputValue]
@@ -108,17 +129,27 @@ const GameScreen = ({ onGameOver, inputRef }) => {
   };
 
   return (
-    <div className="game-screen">
-      <Timer time={time} />
-      <WordCounter count={originalSentence.replace(/\s/g, "").length} />
-      <h2>{renderSentence()}</h2>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={() => {}}
-        className="input-field invisible-input"
-        ref={inputRef}
-      />
+    <div className="screen">
+      <div className="info">
+        <Timer time={time} />
+        <div>Questions Remaining: {currentSentence.length > 0 ? 1 : 0}</div>
+        <div>Mistakes: {mistakes}</div>
+      </div>
+      <div className="main">
+        <h2>{renderSentence()}</h2>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={() => {}}
+          className="input-field invisible-input"
+          ref={inputRef}
+        />
+      </div>
+      <div className="buttons">
+        <button onClick={() => alert("Pause functionality not implemented")}>
+          Pause
+        </button>
+      </div>
     </div>
   );
 };

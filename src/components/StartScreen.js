@@ -1,11 +1,18 @@
+// StartScreen.js
 import React from 'react';
 
 const StartScreen = ({ onStart }) => {
   return (
-    <div>
-      <h1>Typing Speed Game</h1>
-      <p>Test your typing speed by typing the displayed words as fast as you can.</p>
-      <button onClick={onStart}>Play</button>
+    <div className="screen">
+      <div className="info">
+        <h1>Typing Speed Game</h1>
+      </div>
+      <div className="main">
+        <p>Welcome to the Typing Speed Game. Test your typing skills and improve your speed. Press play to start the game.</p>
+      </div>
+      <div className="buttons">
+        <button onClick={onStart}>Play</button>
+      </div>
     </div>
   );
 };

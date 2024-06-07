@@ -10,6 +10,8 @@ const App = () => {
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
   const [gameCleared, setGameCleared] = useState(false);
+  const [mistakes, setMistakes] = useState(0);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const inputRef = useRef(null);
 
   const handleStart = () => {
@@ -19,10 +21,12 @@ const App = () => {
     }
   };
 
-  const handleGameOver = (score, correctLetters, totalLetters, gameCleared) => {
+  const handleGameOver = (score, correctLetters, totalLetters, mistakes, elapsedTime, gameCleared) => {
     setScore(score);
     setCorrectLetters(correctLetters);
     setTotalLetters(totalLetters);
+    setMistakes(mistakes);
+    setElapsedTime(elapsedTime);
     setGameCleared(gameCleared);
     setGameState('result');
   };
@@ -31,7 +35,7 @@ const App = () => {
     <div className="app">
       {gameState === 'start' && <StartScreen onStart={handleStart} />}
       {gameState === 'playing' && <GameScreen onGameOver={handleGameOver} inputRef={inputRef} />}
-      {gameState === 'result' && <ResultScreen score={score} correctLetters={correctLetters} totalLetters={totalLetters} gameCleared={gameCleared} onRestart={handleStart} />}
+      {gameState === 'result' && <ResultScreen score={score} correctLetters={correctLetters} totalLetters={totalLetters} mistakes={mistakes} elapsedTime={elapsedTime} gameCleared={gameCleared} onRestart={handleStart} />}
     </div>
   );
 };
