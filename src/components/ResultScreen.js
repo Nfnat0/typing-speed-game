@@ -1,5 +1,6 @@
 // ResultScreen.js
 import React from 'react';
+import './ResultScreen.css';
 
 const ResultScreen = ({ score, correctLetters, totalLetters, mistakes, elapsedTime, gameCleared, onRestart }) => {
   const percentage = ((correctLetters / totalLetters) * 100).toFixed(2);

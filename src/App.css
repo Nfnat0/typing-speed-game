@@ -93,13 +93,3 @@ h3 {
   opacity: 0;
   z-index: -1;
 }
-
-.result-table {
-  width: 100%;
-  text-align: left;
-}
-
-.result-table td {
-  padding: 5px 10px;
-  vertical-align: top;
-}
