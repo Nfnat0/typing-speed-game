@@ -1,0 +1,24 @@
+/* StartScreen.css */
+.main {
+    flex-direction: column; /* Ensure elements stack vertically */
+}
+
+.dropdown-container {
+  margin-top: 20px;
+}
+
+.genre-dropdown {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 2px solid #00f2fe;
+  background: #fff;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.genre-dropdown:hover {
+  border-color: #4facfe;
+}

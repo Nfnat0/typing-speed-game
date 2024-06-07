@@ -1,5 +1,6 @@
 // StartScreen.js
 import React, { useState } from 'react';
+import './StartScreen.css';  // Add a new CSS file for StartScreen-specific styles
 
 const StartScreen = ({ onStart }) => {
   const [genre, setGenre] = useState('sayings');
@@ -19,11 +20,13 @@ const StartScreen = ({ onStart }) => {
       </div>
       <div className="main">
         <p>Welcome to the Typing Speed Game. Test your typing skills and improve your speed. Select a genre and press play to start the game.</p>
-        <select value={genre} onChange={handleChange}>
-          <option value="sayings">Sayings</option>
-          <option value="news">News</option>
-          {/* Add more genres here */}
-        </select>
+        <div className="dropdown-container">
+          <select className="genre-dropdown" value={genre} onChange={handleChange}>
+            <option value="sayings">Sayings</option>
+            <option value="news">News</option>
+            {/* Add more genres here */}
+          </select>
+        </div>
       </div>
       <div className="buttons">
         <button onClick={handleStart}>Play</button>
