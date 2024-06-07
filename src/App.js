@@ -7,6 +7,7 @@ import ResultScreen from './components/ResultScreen';
 const App = () => {
   const [gameState, setGameState] = useState('start'); // 'start', 'playing', 'result'
   const [genre, setGenre] = useState('sayings');
+  const [repetitions, setRepetitions] = useState(1);
   const [score, setScore] = useState(0);
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
@@ -15,8 +16,9 @@ const App = () => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const inputRef = useRef(null);
 
-  const handleStart = (selectedGenre) => {
+  const handleStart = (selectedGenre, selectedReptitions) => {
     setGenre(selectedGenre);
+    setRepetitions(selectedReptitions);
     setGameState('playing');
     if (inputRef.current) {
       inputRef.current.focus();
@@ -40,7 +42,7 @@ const App = () => {
   return (
     <div className="app">
       {gameState === 'start' && <StartScreen onStart={handleStart} />}
-      {gameState === 'playing' && <GameScreen genre={genre} onGameOver={handleGameOver} inputRef={inputRef} onRestart={handleRestart} />}
+      {gameState === 'playing' && <GameScreen genre={genre}  repetitions={repetitions} onGameOver={handleGameOver} inputRef={inputRef} onRestart={handleRestart} />}
       {gameState === 'result' && <ResultScreen score={score} correctLetters={correctLetters} totalLetters={totalLetters} mistakes={mistakes} elapsedTime={elapsedTime} gameCleared={gameCleared} onRestart={handleRestart} />}
     </div>
   );
