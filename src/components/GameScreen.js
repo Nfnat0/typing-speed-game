@@ -1,4 +1,3 @@
-// GameScreen.js
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Timer from "./Timer";
 import { calculateScore } from "../scoreCalculator";
@@ -7,7 +6,7 @@ import { fetchSentence } from "../sentenceFetcher";
 const GameScreen = ({ genre, onGameOver, inputRef }) => {
   const [originalSentence, setOriginalSentence] = useState("");
   const [currentSentence, setCurrentSentence] = useState("");
-  const [time, setTime] = useState(60); // Game duration in seconds
+  const [time, setTime] = useState(60); // Set the game duration in seconds
   const [elapsedTime, setElapsedTime] = useState(0);
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
@@ -15,7 +14,17 @@ const GameScreen = ({ genre, onGameOver, inputRef }) => {
   const [mistakes, setMistakes] = useState(0);
   const sentenceFetched = useRef(false); // Ref to track if the sentence has been fetched
 
-  // Fetch and set sentence
+  // Timer logic
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime((prevTime) => prevTime - 1);
+      setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // Fetch sentence logic
   useEffect(() => {
     const fetchAndSetSentence = async () => {
       const sentence = await fetchSentence(genre);
@@ -29,6 +38,7 @@ const GameScreen = ({ genre, onGameOver, inputRef }) => {
     }
   }, [genre]);
 
+  // Handle game over when sentence is completed
   useEffect(() => {
     if (currentSentence.length === 0 && originalSentence.length > 0) {
       const score = calculateScore(elapsedTime, totalLetters, correctLetters);
@@ -51,15 +61,9 @@ const GameScreen = ({ genre, onGameOver, inputRef }) => {
     mistakes,
   ]);
 
-  // Timer logic
+  // Handle game over when time runs out
   useEffect(() => {
-    if (time > 0) {
-      const timer = setInterval(() => {
-        setTime(time - 1);
-        setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
-      }, 1000);
-      return () => clearInterval(timer);
-    } else {
+    if (time <= 0) {
       const score = calculateScore(elapsedTime, totalLetters, correctLetters);
       onGameOver(
         score,
