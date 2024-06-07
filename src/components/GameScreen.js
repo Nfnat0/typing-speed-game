@@ -134,15 +134,28 @@ const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
 
   const forceEndGame = () => {
     const score = calculateScore(elapsedTime, totalLetters, correctLetters);
-    onGameOver(score, correctLetters, totalLetters, mistakes, elapsedTime, false); // Force transition to result screen
+    onGameOver(
+      score,
+      correctLetters,
+      totalLetters,
+      mistakes,
+      elapsedTime,
+      false
+    ); // Force transition to result screen
   };
 
   return (
     <div className="screen game-screen">
       <div className="info">
-        <div><Timer time={time} /></div>
-        <div><h3>Questions Remaining: {currentSentence.length > 0 ? 1 : 0}</h3></div>
-        <div><h3>Mistakes: {mistakes}</h3></div>
+        <div>
+          <Timer time={time} />
+        </div>
+        <div>
+          <h3>Questions Remaining: {currentSentence.length > 0 ? 1 : 0}</h3>
+        </div>
+        <div>
+          <h3>Mistakes: {mistakes}</h3>
+        </div>
       </div>
       <div className="main">
         <h2>{renderSentence()}</h2>
