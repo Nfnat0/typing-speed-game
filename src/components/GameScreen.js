@@ -36,16 +36,20 @@ const GameScreen = ({
   // Fetch sentences logic
   useEffect(() => {
     const fetchAndSetSentences = async () => {
-      const fetchedSentences = [];
-      for (let i = 0; i < repetitions; i++) {
-        const sentence = await fetchSentence(genre);
-        console.log(`Fetched sentence ${i + 1}:`, sentence);
-        fetchedSentences.push(sentence || "Error fetching sentence.");
+      try {
+        const fetchedSentences = [];
+        for (let i = 0; i < repetitions; i++) {
+          const sentence = await fetchSentence(genre);
+          console.log(`Fetched sentence ${i + 1}:`, sentence);
+          fetchedSentences.push(sentence || "Error fetching sentence.");
+        }
+        setSentences(fetchedSentences);
+        setCurrentSentence(
+          fetchedSentences[0].replace(/\s/g, "").toLowerCase()
+        );
+      } catch (error) {
+        console.error("Error fetching sentences:", error);
       }
-      setSentences(fetchedSentences);
-      setCurrentSentence(
-        fetchedSentences[0].replace(/\s/g, "").toLowerCase()
-      );
     };
 
     if (!sentenceFetched.current) {
