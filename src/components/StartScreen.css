@@ -3,10 +3,6 @@
     flex-direction: column; /* Ensure elements stack vertically */
 }
 
-.dropdown-container {
-  margin-top: 20px;
-}
-
 .genre-dropdown {
   padding: 10px;
   font-size: 20px;
@@ -23,4 +19,11 @@
 
 .genre-dropdown:hover {
   background: linear-gradient(to right, #4facfe, #00f2fe);
+}
+
+.start-screen .containers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
 }
