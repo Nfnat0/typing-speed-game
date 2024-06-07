@@ -6,7 +6,8 @@ import { fetchSentence } from "../sentenceFetcher";
 import "./GameScreen.css"; // Import the new CSS file
 
 const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
-  const [originalSentence, setOriginalSentence] = useState("");
+  const [sentences, setSentences] = useState([]);
+  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [currentSentence, setCurrentSentence] = useState("");
   const [time, setTime] = useState(60); // Set the game duration in seconds
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -26,23 +27,31 @@ const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch sentence logic
+  // Fetch sentences logic
   useEffect(() => {
-    const fetchAndSetSentence = async () => {
-      const sentence = await fetchSentence(genre);
-      setOriginalSentence(sentence);
-      setCurrentSentence(sentence.replace(/\s/g, "").toLowerCase());
+    const fetchAndSetSentences = async () => {
+      const fetchedSentences = [];
+      for (let i = 0; i < 3; i++) {
+        const sentence = await fetchSentence(genre);
+        fetchedSentences.push(sentence);
+      }
+      setSentences(fetchedSentences);
+      setCurrentSentence(fetchedSentences[0].replace(/\s/g, "").toLowerCase());
     };
 
     if (!sentenceFetched.current) {
-      fetchAndSetSentence();
+      fetchAndSetSentences();
       sentenceFetched.current = true; // Set ref to true after fetching
     }
   }, [genre]);
 
-  // Handle game over when sentence is completed
+  // Handle game over when all sentences are completed
   useEffect(() => {
-    if (currentSentence.length === 0 && originalSentence.length > 0) {
+    if (
+      currentSentence.length === 0 &&
+      sentences.length === 3 &&
+      currentSentenceIndex >= 2
+    ) {
       const score = calculateScore(elapsedTime, totalLetters, correctLetters);
       onGameOver(
         score,
@@ -55,11 +64,12 @@ const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
     }
   }, [
     currentSentence,
+    currentSentenceIndex,
     elapsedTime,
     totalLetters,
     correctLetters,
     onGameOver,
-    originalSentence,
+    sentences,
     mistakes,
   ]);
 
@@ -91,14 +101,23 @@ const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
             (prevCorrectLetters) =>
               prevCorrectLetters + (inputValue + char).length
           );
-          setCurrentSentence("");
           setInputValue("");
+          if (currentSentenceIndex < 2) {
+            setCurrentSentenceIndex((prevIndex) => prevIndex + 1);
+            setCurrentSentence(
+              sentences[currentSentenceIndex + 1]
+                .replace(/\s/g, "")
+                .toLowerCase()
+            );
+          } else {
+            setCurrentSentence(""); // This will trigger the game over effect
+          }
         }
       } else {
         setMistakes((prevMistakes) => prevMistakes + 1);
       }
     },
-    [currentSentence, inputValue]
+    [currentSentence, inputValue, currentSentenceIndex, sentences]
   );
 
   // Add and remove event listener for key presses
@@ -119,7 +138,7 @@ const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
   // Render the sentence with typed letters highlighted
   const renderSentence = () => {
     let typedIndex = 0;
-    return originalSentence.split("").map((char, index) => {
+    return sentences[currentSentenceIndex]?.split("").map((char, index) => {
       const isSpace = char === " ";
       const isTyped = !isSpace && typedIndex < inputValue.length;
       if (!isSpace) typedIndex++;
@@ -151,7 +170,7 @@ const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
           <Timer time={time} />
         </div>
         <div>
-          <h3>Questions Remaining: {currentSentence.length > 0 ? 1 : 0}</h3>
+          <h3>Questions Remaining: {3 - currentSentenceIndex}</h3>
         </div>
         <div>
           <h3>Mistakes: {mistakes}</h3>
