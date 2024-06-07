@@ -25,7 +25,7 @@ const StartScreen = ({ onStart }) => {
         <h1>Typing Speed Game</h1>
       </div>
       <div className="main">
-        <p>Welcome to the Typing Speed Game. Test your typing skills and improve your speed. Select a genre and the number of repetitions, then press play to start the game.</p>
+        <h3>Test your typing skills and improve your speed.</h3>
         <div className="containers">
           <div className="dropdown-container">
             <label htmlFor="genre">Select Genre : </label>
