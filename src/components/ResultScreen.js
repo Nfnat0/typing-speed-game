@@ -6,7 +6,7 @@ const ResultScreen = ({ score, correctLetters, totalLetters, mistakes, elapsedTi
   const percentage = ((correctLetters / totalLetters) * 100).toFixed(2);
 
   return (
-    <div className="screen">
+    <div className="screen result-screen">
       <div className="info">
         <h1>{gameCleared ? 'GameClear!' : 'GameOver!'}</h1>
       </div>

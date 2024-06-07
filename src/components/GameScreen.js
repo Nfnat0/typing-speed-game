@@ -1,7 +1,9 @@
+// GameScreen.js
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Timer from "./Timer";
 import { calculateScore } from "../scoreCalculator";
 import { fetchSentence } from "../sentenceFetcher";
+import "./GameScreen.css"; // Import the new CSS file
 
 const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
   const [originalSentence, setOriginalSentence] = useState("");
@@ -130,8 +132,13 @@ const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
     });
   };
 
+  const forceEndGame = () => {
+    const score = calculateScore(elapsedTime, totalLetters, correctLetters);
+    onGameOver(score, correctLetters, totalLetters, mistakes, elapsedTime, false); // Force transition to result screen
+  };
+
   return (
-    <div className="screen">
+    <div className="screen game-screen">
       <div className="info">
         <Timer time={time} />
         <div>Questions Remaining: {currentSentence.length > 0 ? 1 : 0}</div>
@@ -148,9 +155,8 @@ const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
         />
       </div>
       <div className="buttons">
-        <button onClick={onRestart}>
-          Restart
-        </button>
+        <button onClick={onRestart}>Restart</button>
+        <button onClick={forceEndGame}>End Game</button>
       </div>
     </div>
   );

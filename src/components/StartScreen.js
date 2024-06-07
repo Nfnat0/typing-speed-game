@@ -14,7 +14,7 @@ const StartScreen = ({ onStart }) => {
   };
 
   return (
-    <div className="screen">
+    <div className="screen start-screen">
       <div className="info">
         <h1>Typing Speed Game</h1>
       </div>

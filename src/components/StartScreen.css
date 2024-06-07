@@ -1,5 +1,5 @@
 /* StartScreen.css */
-.main {
+.start-screen .main {
     flex-direction: column; /* Ensure elements stack vertically */
 }
 

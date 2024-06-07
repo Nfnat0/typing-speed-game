@@ -1,0 +1,15 @@
+/* GameScreen.css */
+.game-screen .main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;  /* Enable vertical scrolling */
+    max-height: 70vh;  /* Set max height to ensure scrolling works well */
+  }
+
+.game-screen .buttons {
+    flex: 0 1 auto;
+    display: flex;
+    justify-content: space-between;
+}
