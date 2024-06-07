@@ -1,3 +1,4 @@
+// GameScreen.js
 import React, { useState, useEffect, useCallback } from 'react';
 import Timer from './Timer';
 import WordCounter from './WordCounter';
@@ -5,14 +6,16 @@ import { calculateScore } from '../scoreCalculator';
 import { fetchSentence } from '../sentenceFetcher';
 
 const GameScreen = ({ onGameOver, inputRef }) => {
+  // State variables
   const [originalSentence, setOriginalSentence] = useState('');
   const [currentSentence, setCurrentSentence] = useState('');
-  const [time, setTime] = useState(60); // Set the game duration in seconds
+  const [time, setTime] = useState(60); // Game duration in seconds
   const [elapsedTime, setElapsedTime] = useState(0);
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
+  // Fetch and set sentence
   useEffect(() => {
     const fetchAndSetSentence = async () => {
       const sentence = await fetchSentence();
@@ -23,6 +26,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     fetchAndSetSentence();
   }, []);
 
+  // Handle game end when sentence is completed
   useEffect(() => {
     if (currentSentence.length === 0 && originalSentence.length > 0) {
       const score = calculateScore(elapsedTime, totalLetters, correctLetters);
@@ -30,6 +34,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     }
   }, [currentSentence, elapsedTime, totalLetters, correctLetters, onGameOver, originalSentence]);
 
+  // Timer logic
   useEffect(() => {
     if (time > 0) {
       const timer = setInterval(() => {
@@ -43,6 +48,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     }
   }, [time, elapsedTime, onGameOver, totalLetters, correctLetters]);
 
+  // Handle key press events
   const handleKeyPress = useCallback((e) => {
     const char = e.key.toLowerCase();
     setTotalLetters(prevTotalLetters => prevTotalLetters + 1);
@@ -57,6 +63,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     }
   }, [currentSentence, inputValue]);
 
+  // Add and remove event listener for key presses
   useEffect(() => {
     window.addEventListener('keypress', handleKeyPress);
     return () => {
@@ -64,12 +71,14 @@ const GameScreen = ({ onGameOver, inputRef }) => {
     };
   }, [handleKeyPress]);
 
+  // Focus the input field
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }, [inputRef]);
 
+  // Render the sentence with typed letters highlighted
   const renderSentence = () => {
     let typedIndex = 0;
     return originalSentence.split('').map((char, index) => {
