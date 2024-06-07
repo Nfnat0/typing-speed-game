@@ -140,9 +140,9 @@ const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
   return (
     <div className="screen game-screen">
       <div className="info">
-        <Timer time={time} />
-        <div>Questions Remaining: {currentSentence.length > 0 ? 1 : 0}</div>
-        <div>Mistakes: {mistakes}</div>
+        <div><Timer time={time} /></div>
+        <div><h3>Questions Remaining: {currentSentence.length > 0 ? 1 : 0}</h3></div>
+        <div><h3>Mistakes: {mistakes}</h3></div>
       </div>
       <div className="main">
         <h2>{renderSentence()}</h2>
