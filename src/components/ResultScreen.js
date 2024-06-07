@@ -15,19 +15,19 @@ const ResultScreen = ({ score, correctLetters, totalLetters, mistakes, elapsedTi
           <tbody>
             <tr>
               <td>Score:</td>
-              <td>{score}</td>
+              <td>{score || 0}</td>
             </tr>
             <tr>
               <td>Accuracy:</td>
-              <td>{percentage}%</td>
+              <td>{isNaN(percentage) ? 0 : percentage}%</td>
             </tr>
             <tr>
               <td>Mistakes:</td>
-              <td>{mistakes}</td>
+              <td>{mistakes || 0}</td>
             </tr>
             <tr>
               <td>Elapsed Time:</td>
-              <td>{elapsedTime} seconds</td>
+              <td>{elapsedTime || 0} seconds</td>
             </tr>
           </tbody>
         </table>
