@@ -1,6 +1,5 @@
 // GameScreen.js
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import Timer from "./Timer";
 import { calculateScore } from "../scoreCalculator";
 import { fetchSentence } from "../sentenceFetcher";
 import "./GameScreen.css"; // Import the new CSS file
@@ -181,13 +180,13 @@ const GameScreen = ({
     <div className="screen game-screen">
       <div className="info">
         <div>
-          <Timer time={time} />
+          <h3>Time: <span style={{ color: 'yellow' }}>{time}</span>s</h3>
         </div>
         <div>
           <h3>Questions Remaining: {repetitions - currentSentenceIndex}</h3>
         </div>
         <div>
-          <h3>Mistakes: {mistakes}</h3>
+          <h3>Mistakes: {<span style={{ color: 'red' }}>{mistakes}</span>}</h3>
         </div>
       </div>
       <div className="main">
