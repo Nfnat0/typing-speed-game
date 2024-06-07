@@ -2,6 +2,8 @@
 import React from 'react';
 
 const ResultScreen = ({ score, correctLetters, totalLetters, mistakes, elapsedTime, gameCleared, onRestart }) => {
+  const percentage = ((correctLetters / totalLetters) * 100).toFixed(2);
+
   return (
     <div className="screen">
       <div className="info">
@@ -15,12 +17,8 @@ const ResultScreen = ({ score, correctLetters, totalLetters, mistakes, elapsedTi
               <td>{score}</td>
             </tr>
             <tr>
-              <td>Correct Letters:</td>
-              <td>{correctLetters}</td>
-            </tr>
-            <tr>
-              <td>Total Letters:</td>
-              <td>{totalLetters}</td>
+              <td>Accuracy:</td>
+              <td>{percentage}%</td>
             </tr>
             <tr>
               <td>Mistakes:</td>
