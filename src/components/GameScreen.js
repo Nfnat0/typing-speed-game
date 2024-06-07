@@ -3,7 +3,7 @@ import Timer from "./Timer";
 import { calculateScore } from "../scoreCalculator";
 import { fetchSentence } from "../sentenceFetcher";
 
-const GameScreen = ({ genre, onGameOver, inputRef }) => {
+const GameScreen = ({ genre, onGameOver, inputRef, onRestart }) => {
   const [originalSentence, setOriginalSentence] = useState("");
   const [currentSentence, setCurrentSentence] = useState("");
   const [time, setTime] = useState(60); // Set the game duration in seconds
@@ -148,8 +148,8 @@ const GameScreen = ({ genre, onGameOver, inputRef }) => {
         />
       </div>
       <div className="buttons">
-        <button onClick={() => alert("Pause functionality not implemented")}>
-          Pause
+        <button onClick={onRestart}>
+          Restart
         </button>
       </div>
     </div>

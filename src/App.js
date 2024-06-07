@@ -40,7 +40,7 @@ const App = () => {
   return (
     <div className="app">
       {gameState === 'start' && <StartScreen onStart={handleStart} />}
-      {gameState === 'playing' && <GameScreen genre={genre} onGameOver={handleGameOver} inputRef={inputRef} />}
+      {gameState === 'playing' && <GameScreen genre={genre} onGameOver={handleGameOver} inputRef={inputRef} onRestart={handleRestart} />}
       {gameState === 'result' && <ResultScreen score={score} correctLetters={correctLetters} totalLetters={totalLetters} mistakes={mistakes} elapsedTime={elapsedTime} gameCleared={gameCleared} onRestart={handleRestart} />}
     </div>
   );
