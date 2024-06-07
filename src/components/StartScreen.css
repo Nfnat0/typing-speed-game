@@ -3,7 +3,8 @@
     flex-direction: column; /* Ensure elements stack vertically */
 }
 
-.genre-dropdown {
+.genre-dropdown,
+.repetitions-dropdown {
   padding: 10px;
   font-size: 20px;
   font-weight: bold;
@@ -17,7 +18,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a box shadow for better visibility */
 }
 
-.genre-dropdown:hover {
+.genre-dropdown:hover,
+.repetitions-dropdown:hover {
   background: linear-gradient(to right, #4facfe, #00f2fe);
 }
 
@@ -25,5 +27,5 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px;
+  gap: 20px;
 }

@@ -64,16 +64,16 @@ button {
   font-size: 30px;
   margin-top: 20px;
   cursor: pointer;
-  border: 1px solid #0055fe;
+  border: 1px solid #00f2fe;
   border-radius: 45px;
-  background: #0055fe;
+  background: linear-gradient(to right, #00f2fe, #4facfe);
   color: #fff;
   transition: background 0.3s ease;
   font-weight: bold;
 }
 
 button:hover {
-  background: #4facfe;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
 }
 
 h1,

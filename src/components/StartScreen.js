@@ -37,16 +37,13 @@ const StartScreen = ({ onStart }) => {
               <option value="advice">Advice</option>
             </select>
           </div>
-          <div className="input-container">
-            <label htmlFor="repetitions">Repetitions (1-10) : </label>
-            <input
-              type="number"
-              id="repetitions"
-              value={repetitions}
-              onChange={handleChangeRepetitions}
-              min="1"
-              max="10"
-            />
+          <div className="dropdown-container">
+            <label htmlFor="repetitions">Select Repetitions : </label>
+            <select className="repetitions-dropdown" value={repetitions} onChange={handleChangeRepetitions}>
+              {Array.from({ length: 10 }, (_, i) => i + 1).map((value) => (
+                <option key={value} value={value}>{value}</option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
