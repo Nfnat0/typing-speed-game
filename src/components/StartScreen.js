@@ -24,7 +24,9 @@ const StartScreen = ({ onStart }) => {
           <select className="genre-dropdown" value={genre} onChange={handleChange}>
             <option value="sayings">Sayings</option>
             <option value="news">News</option>
-            {/* Add more genres here */}
+            <option value="programming">Programming</option>
+            <option value="jokes">Jokes</option>
+            <option value="advice">Advice</option>
           </select>
         </div>
       </div>

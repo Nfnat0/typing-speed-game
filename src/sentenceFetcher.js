@@ -1,23 +1,27 @@
-const API_KEYS = {
-  news: 'YOUR_NEWS_API_KEY',
-  // Add more API keys if needed
-};
-
 export const fetchSentence = async (genre) => {
   let url = '';
+
   switch (genre) {
     case 'sayings':
       url = 'https://api.quotable.io/random';
       break;
     case 'news':
-      url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEYS.news}`;
+      // Use a free news API that doesn't require registration, such as the mock news API for example purposes
+      url = 'https://inshortsapi.vercel.app/news?category=technology';
       break;
-    // Add more cases for additional genres
+    case 'programming':
+      url = 'https://programming-quotes-api.herokuapp.com/quotes/random';
+      break;
+    case 'jokes':
+      url = 'https://v2.jokeapi.dev/joke/Any';
+      break;
+    case 'advice':
+      url = 'https://api.adviceslip.com/advice';
+      break;
     default:
-      // Handle default case here
-      break;
+      throw new Error('Invalid genre');
   }
-  // Add more genres here
+
   const response = await fetch(url);
   const data = await response.json();
 
@@ -25,10 +29,14 @@ export const fetchSentence = async (genre) => {
     case 'sayings':
       return data.content;
     case 'news':
-      return data.articles[0].title;
+      return data.data[0].content;
+    case 'programming':
+      return data.en;
+    case 'jokes':
+      return data.setup ? `${data.setup} - ${data.delivery}` : data.joke;
+    case 'advice':
+      return data.slip.advice;
     default:
-      // Handle default case here
-      break;
+      throw new Error('Invalid genre');
   }
-  // Handle more genres here
 };
