@@ -9,16 +9,18 @@
 
 .genre-dropdown {
   padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 2px solid #00f2fe;
-  background: #fff;
-  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  color: rgb(93, 73, 161);
   outline: none;
   cursor: pointer;
-  transition: border-color 0.3s ease;
+  transition: background 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a box shadow for better visibility */
 }
 
 .genre-dropdown:hover {
-  border-color: #4facfe;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
 }
