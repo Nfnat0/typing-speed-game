@@ -1,5 +1,5 @@
 // GameScreen.js
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Timer from "./Timer";
 import { calculateScore } from "../scoreCalculator";
 import { fetchSentence } from "../sentenceFetcher";
@@ -13,8 +13,8 @@ const GameScreen = ({ onGameOver, inputRef }) => {
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
   const [inputValue, setInputValue] = useState("");
-  const [initialized, setInitialized] = useState(false);
   const [mistakes, setMistakes] = useState(0);
+  const sentenceFetched = useRef(false); // Ref to track if the sentence has been fetched
 
   // Fetch and set sentence
   useEffect(() => {
@@ -24,13 +24,12 @@ const GameScreen = ({ onGameOver, inputRef }) => {
       setCurrentSentence(sentence.replace(/\s/g, "").toLowerCase());
     };
 
-    if (!initialized) {
+    if (!sentenceFetched.current) {
       fetchAndSetSentence();
-      setInitialized(true);
+      sentenceFetched.current = true; // Set ref to true after fetching
     }
-  }, [initialized]);
+  }, []);
 
-  // Handle game end when sentence is completed
   useEffect(() => {
     if (currentSentence.length === 0 && originalSentence.length > 0) {
       const score = calculateScore(elapsedTime, totalLetters, correctLetters);
