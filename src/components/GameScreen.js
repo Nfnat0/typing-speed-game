@@ -4,8 +4,7 @@ import Timer from "./Timer";
 import { calculateScore } from "../scoreCalculator";
 import { fetchSentence } from "../sentenceFetcher";
 
-const GameScreen = ({ onGameOver, inputRef }) => {
-  // State variables
+const GameScreen = ({ genre, onGameOver, inputRef }) => {
   const [originalSentence, setOriginalSentence] = useState("");
   const [currentSentence, setCurrentSentence] = useState("");
   const [time, setTime] = useState(60); // Game duration in seconds
@@ -19,7 +18,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
   // Fetch and set sentence
   useEffect(() => {
     const fetchAndSetSentence = async () => {
-      const sentence = await fetchSentence();
+      const sentence = await fetchSentence(genre);
       setOriginalSentence(sentence);
       setCurrentSentence(sentence.replace(/\s/g, "").toLowerCase());
     };
@@ -28,7 +27,7 @@ const GameScreen = ({ onGameOver, inputRef }) => {
       fetchAndSetSentence();
       sentenceFetched.current = true; // Set ref to true after fetching
     }
-  }, []);
+  }, [genre]);
 
   useEffect(() => {
     if (currentSentence.length === 0 && originalSentence.length > 0) {
