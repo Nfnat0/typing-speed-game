@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "./StartScreen.css"; // Add a new CSS file for StartScreen-specific styles
 
-const StartScreen = ({ onStart }) => {
+const StartScreen = ({ onStart, onViewStatistics }) => {
   const [genre, setGenre] = useState("sayings");
   const [repetitions, setRepetitions] = useState(1);
 
@@ -58,7 +58,12 @@ const StartScreen = ({ onStart }) => {
         </div>
       </div>
       <div className="buttons">
-        <button onClick={handleStart}>Play</button>
+        <button className="play-button" onClick={handleStart}>
+          Play
+        </button>
+        <button className="statistics-button" onClick={onViewStatistics}>
+          Statistics
+        </button>{" "}
       </div>
     </div>
   );

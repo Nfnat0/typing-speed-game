@@ -1,8 +1,10 @@
+// App.js
 import React, { useState, useRef } from "react";
 import "./App.css";
 import StartScreen from "./components/StartScreen";
 import GameScreen from "./components/GameScreen";
 import ResultScreen from "./components/ResultScreen";
+import StatisticsScreen from "./components/StatisticsScreen";
 
 const App = () => {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'result'
@@ -46,9 +48,22 @@ const App = () => {
     setGameState("start");
   };
 
+  const handleViewStatistics = () => {
+    setGameState("statistics");
+  };
+
+  const handleBackToStart = () => {
+    setGameState("start");
+  };
+
   return (
     <div className="app">
-      {gameState === "start" && <StartScreen onStart={handleStart} />}
+      {gameState === "start" && (
+        <StartScreen
+          onStart={handleStart}
+          onViewStatistics={handleViewStatistics}
+        />
+      )}
       {gameState === "playing" && (
         <GameScreen
           genre={genre}
@@ -68,6 +83,9 @@ const App = () => {
           gameCleared={gameCleared}
           onRestart={handleRestart}
         />
+      )}
+      {gameState === "statistics" && (
+        <StatisticsScreen onBackToStart={handleBackToStart} />
       )}
     </div>
   );

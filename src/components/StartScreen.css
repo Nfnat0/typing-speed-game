@@ -30,3 +30,17 @@
   gap: 20px;
   margin-top: 20px;
 }
+
+.start-screen .buttons {
+  display: flex;
+}
+
+.start-screen .play-button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.start-screen .statistics-button {
+  margin-left: auto;
+}
