@@ -204,13 +204,15 @@ const GameScreen = ({
     <div className="screen game-screen">
       <div className="info">
         <div>
-          <h3>Time: <span style={{ color: 'yellow' }}>{time}</span>s</h3>
+          <h3>
+            Time: <span style={{ color: "yellow" }}>{time}</span>s
+          </h3>
         </div>
         <div>
           <h3>Questions Remaining: {repetitions - currentSentenceIndex}</h3>
         </div>
         <div>
-          <h3>Mistakes: {<span style={{ color: 'red' }}>{mistakes}</span>}</h3>
+          <h3>Mistakes: {<span style={{ color: "red" }}>{mistakes}</span>}</h3>
         </div>
       </div>
       <div className="main">

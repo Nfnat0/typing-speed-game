@@ -1,14 +1,22 @@
 // ResultScreen.js
-import React from 'react';
-import './ResultScreen.css';
+import React from "react";
+import "./ResultScreen.css";
 
-const ResultScreen = ({ score, correctLetters, totalLetters, mistakes, elapsedTime, gameCleared, onRestart }) => {
+const ResultScreen = ({
+  score,
+  correctLetters,
+  totalLetters,
+  mistakes,
+  elapsedTime,
+  gameCleared,
+  onRestart,
+}) => {
   const percentage = ((correctLetters / totalLetters) * 100).toFixed(2);
 
   return (
     <div className="screen result-screen">
       <div className="info">
-        <h1>{gameCleared ? 'GameClear!' : 'GameOver!'}</h1>
+        <h1>{gameCleared ? "GameClear!" : "GameOver!"}</h1>
       </div>
       <div className="main">
         <table className="result-table">

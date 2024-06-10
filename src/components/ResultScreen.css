@@ -1,15 +1,16 @@
 .result-table {
-    border-collapse: collapse;
-    width: 50%;
+  border-collapse: collapse;
+  width: 50%;
 }
-.result-table th, .result-table td {
-    padding: 12px 20px;
+.result-table th,
+.result-table td {
+  padding: 12px 20px;
 }
 .result-table th {
-    /* background-color: #f4f4f4; */
-    font-weight: bold;
+  /* background-color: #f4f4f4; */
+  font-weight: bold;
 }
 .result-table td {
-    text-align: left;
-    font-weight: bold;
+  text-align: left;
+  font-weight: bold;
 }

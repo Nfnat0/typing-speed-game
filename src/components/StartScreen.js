@@ -1,9 +1,9 @@
 // StartScreen.js
-import React, { useState } from 'react';
-import './StartScreen.css'; // Add a new CSS file for StartScreen-specific styles
+import React, { useState } from "react";
+import "./StartScreen.css"; // Add a new CSS file for StartScreen-specific styles
 
 const StartScreen = ({ onStart }) => {
-  const [genre, setGenre] = useState('sayings');
+  const [genre, setGenre] = useState("sayings");
   const [repetitions, setRepetitions] = useState(1);
 
   const handleChangeGenre = (event) => {
@@ -29,7 +29,11 @@ const StartScreen = ({ onStart }) => {
         <div className="containers">
           <div className="dropdown-container">
             <label htmlFor="genre">Select Genre : </label>
-            <select className="genre-dropdown" value={genre} onChange={handleChangeGenre}>
+            <select
+              className="genre-dropdown"
+              value={genre}
+              onChange={handleChangeGenre}
+            >
               <option value="sayings">Sayings</option>
               <option value="news">News</option>
               <option value="programming">Programming</option>
@@ -39,9 +43,15 @@ const StartScreen = ({ onStart }) => {
           </div>
           <div className="dropdown-container">
             <label htmlFor="repetitions">Select Repetitions : </label>
-            <select className="repetitions-dropdown" value={repetitions} onChange={handleChangeRepetitions}>
+            <select
+              className="repetitions-dropdown"
+              value={repetitions}
+              onChange={handleChangeRepetitions}
+            >
               {Array.from({ length: 10 }, (_, i) => i + 1).map((value) => (
-                <option key={value} value={value}>{value}</option>
+                <option key={value} value={value}>
+                  {value}
+                </option>
               ))}
             </select>
           </div>
