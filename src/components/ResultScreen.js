@@ -2,48 +2,43 @@
 import React from "react";
 import "./ResultScreen.css";
 
-const ResultScreen = ({
-  score,
-  correctLetters,
-  totalLetters,
-  mistakes,
-  elapsedTime,
-  gameCleared,
-  onRestart,
-  onViewStatistics,
-}) => {
-  const percentage = ((correctLetters / totalLetters) * 100).toFixed(2);
+const ResultScreen = ({ history, onRestart, onViewStatistics }) => {
+  const latestEntry = history[history.length - 1];
 
   return (
     <div className="screen result-screen">
       <div className="info">
-        <h1>{gameCleared ? "GameClear!" : "GameOver!"}</h1>
+        <h1>{latestEntry.gameCleared ? "GameClear!" : "GameOver!"}</h1>
       </div>
       <div className="main">
         <table className="result-table">
           <tbody>
             <tr>
               <td>Score:</td>
-              <td>{score || 0}</td>
+              <td>{latestEntry.score}</td>
             </tr>
             <tr>
               <td>Accuracy:</td>
-              <td>{isNaN(percentage) ? 0 : percentage}%</td>
+              <td>{latestEntry.accuracy}%</td>
+            </tr>
+            <tr>
+              <td>Total Characters:</td>
+              <td>{latestEntry.totalLetters}</td>
             </tr>
             <tr>
               <td>Mistakes:</td>
-              <td>{mistakes || 0}</td>
+              <td>{latestEntry.mistakes}</td>
             </tr>
             <tr>
               <td>Elapsed Time:</td>
-              <td>{elapsedTime || 0} seconds</td>
+              <td>{latestEntry.elapsedTime}s</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div className="buttons">
         <button onClick={onRestart}>Play Again</button>
-        <button onClick={onViewStatistics}>View Statistics</button>{" "}
+        <button onClick={onViewStatistics}>View Statistics</button>
       </div>
     </div>
   );

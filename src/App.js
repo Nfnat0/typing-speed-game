@@ -7,15 +7,9 @@ import ResultScreen from "./components/ResultScreen";
 import StatisticsScreen from "./components/StatisticsScreen";
 
 const App = () => {
-  const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'result'
+  const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'result', 'statistics'
   const [genre, setGenre] = useState("sayings");
   const [repetitions, setRepetitions] = useState(1);
-  const [score, setScore] = useState(0);
-  const [correctLetters, setCorrectLetters] = useState(0);
-  const [totalLetters, setTotalLetters] = useState(0);
-  const [gameCleared, setGameCleared] = useState(false);
-  const [mistakes, setMistakes] = useState(0);
-  const [elapsedTime, setElapsedTime] = useState(0);
   const [history, setHistory] = useState([]); // Store game history
   const inputRef = useRef(null);
 
@@ -38,18 +32,14 @@ const App = () => {
   ) => {
     const newEntry = {
       date: new Date(),
-      score,
-      accuracy: ((correctLetters / totalLetters) * 100).toFixed(2),
-      totalLetters,
-      elapsedTime,
+      score: score || 0,
+      accuracy: ((correctLetters / totalLetters) * 100 || 0).toFixed(2),
+      totalLetters: totalLetters || 0,
+      mistakes: mistakes || 0,
+      elapsedTime: elapsedTime || 0,
+      gameCleared: gameCleared || false,
     };
     setHistory([...history, newEntry]);
-    setScore(score);
-    setCorrectLetters(correctLetters);
-    setTotalLetters(totalLetters);
-    setMistakes(mistakes);
-    setElapsedTime(elapsedTime);
-    setGameCleared(gameCleared);
     setGameState("result");
   };
 
@@ -84,12 +74,7 @@ const App = () => {
       )}
       {gameState === "result" && (
         <ResultScreen
-          score={score}
-          correctLetters={correctLetters}
-          totalLetters={totalLetters}
-          mistakes={mistakes}
-          elapsedTime={elapsedTime}
-          gameCleared={gameCleared}
+          history={history}
           onRestart={handleRestart}
           onViewStatistics={handleViewStatistics}
         />

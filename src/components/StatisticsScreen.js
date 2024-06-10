@@ -23,7 +23,7 @@ const StatisticsScreen = ({ history, onBackToStart }) => {
   return (
     <div className="screen statistics-screen">
       <div className="info">
-        <h1>Game Statistics</h1>
+        <h3>Game Statistics</h3>
       </div>
       <div className="main">
         <table>
@@ -33,6 +33,7 @@ const StatisticsScreen = ({ history, onBackToStart }) => {
               <th>Score</th>
               <th>Accuracy(%)</th>
               <th>Total</th>
+              <th>Mistakes</th>
               <th>Time(s)</th>
             </tr>
           </thead>
@@ -43,6 +44,7 @@ const StatisticsScreen = ({ history, onBackToStart }) => {
                 <td>{entry.score}</td>
                 <td>{entry.accuracy}</td>
                 <td>{entry.totalLetters}</td>
+                <td>{entry.mistakes}</td>
                 <td>{entry.elapsedTime}</td>
               </tr>
             ))}
