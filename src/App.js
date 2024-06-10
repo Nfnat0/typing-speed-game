@@ -16,6 +16,7 @@ const App = () => {
   const [gameCleared, setGameCleared] = useState(false);
   const [mistakes, setMistakes] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [history, setHistory] = useState([]); // Store game history
   const inputRef = useRef(null);
 
   const handleStart = (selectedGenre, selectedReptitions) => {
@@ -35,6 +36,14 @@ const App = () => {
     elapsedTime,
     gameCleared
   ) => {
+    const newEntry = {
+      date: new Date(),
+      score,
+      accuracy: ((correctLetters / totalLetters) * 100).toFixed(2),
+      totalLetters,
+      elapsedTime,
+    };
+    setHistory([...history, newEntry]);
     setScore(score);
     setCorrectLetters(correctLetters);
     setTotalLetters(totalLetters);
@@ -85,7 +94,7 @@ const App = () => {
         />
       )}
       {gameState === "statistics" && (
-        <StatisticsScreen onBackToStart={handleBackToStart} />
+        <StatisticsScreen history={history} onBackToStart={handleBackToStart} />
       )}
     </div>
   );

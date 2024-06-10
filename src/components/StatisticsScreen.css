@@ -1,0 +1,22 @@
+.statistics-screen table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.statistics-screen th,
+.statistics-screen td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.statistics-screen th {
+  background-color: #4facfe;
+  color: white;
+}
+
+.statistics-screen .main {
+  flex: 1 1 auto;
+  display: block;
+  background-color: transparent;
+}
