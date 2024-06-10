@@ -91,6 +91,7 @@ const App = () => {
           elapsedTime={elapsedTime}
           gameCleared={gameCleared}
           onRestart={handleRestart}
+          onViewStatistics={handleViewStatistics}
         />
       )}
       {gameState === "statistics" && (

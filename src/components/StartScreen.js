@@ -39,6 +39,7 @@ const StartScreen = ({ onStart, onViewStatistics }) => {
               <option value="programming">Programming</option>
               <option value="jokes">Jokes</option>
               <option value="advice">Advice</option>
+              <option value="test">Test</option>
             </select>
           </div>
           <div className="dropdown-container">

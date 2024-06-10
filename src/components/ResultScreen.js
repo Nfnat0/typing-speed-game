@@ -10,6 +10,7 @@ const ResultScreen = ({
   elapsedTime,
   gameCleared,
   onRestart,
+  onViewStatistics,
 }) => {
   const percentage = ((correctLetters / totalLetters) * 100).toFixed(2);
 
@@ -42,6 +43,7 @@ const ResultScreen = ({
       </div>
       <div className="buttons">
         <button onClick={onRestart}>Play Again</button>
+        <button onClick={onViewStatistics}>View Statistics</button>{" "}
       </div>
     </div>
   );

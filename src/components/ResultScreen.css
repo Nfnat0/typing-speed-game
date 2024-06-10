@@ -14,3 +14,9 @@
   text-align: left;
   font-weight: bold;
 }
+
+.result-screen .buttons {
+  flex: 0 1 auto;
+  display: flex;
+  justify-content: space-between;
+}
