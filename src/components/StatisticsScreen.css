@@ -13,10 +13,23 @@
 .statistics-screen th {
   background-color: #4facfe;
   color: white;
+  top: 0; /* Stick the header to the top */
+  z-index: 1; /* Ensure it stays above the table body */
 }
 
 .statistics-screen .main {
   flex: 1 1 auto;
   display: block;
   background-color: transparent;
+  max-height: 300px; /* Set max height to ensure scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  scrollbar-width: thin; /* Set the width of the scrollbar */
+  scrollbar-color: transparent transparent; /* Set the color of the scrollbar */
+  border-radius: 0;
+}
+
+.statistics-screen .buttons {
+  flex: 0 1 auto;
+  display: flex;
+  justify-content: space-between;
 }
