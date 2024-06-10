@@ -3,7 +3,7 @@ import React from "react";
 import "./ResultScreen.css";
 
 const ResultScreen = ({ history, onRestart, onViewStatistics }) => {
-  const latestEntry = history[history.length - 1];
+  const latestEntry = history[0]; // Get the latest entry from the history
 
   return (
     <div className="screen result-screen">

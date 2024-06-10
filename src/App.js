@@ -1,5 +1,5 @@
 // App.js
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import StartScreen from "./components/StartScreen";
 import GameScreen from "./components/GameScreen";
@@ -12,6 +12,19 @@ const App = () => {
   const [repetitions, setRepetitions] = useState(1);
   const [history, setHistory] = useState([]); // Store game history
   const inputRef = useRef(null);
+
+  // Load history from localStorage when the app starts
+  useEffect(() => {
+    const savedHistory = localStorage.getItem("gameHistory");
+    if (savedHistory) {
+      setHistory(JSON.parse(savedHistory));
+    }
+  }, []);
+
+  // Save history to localStorage whenever it is updated
+  useEffect(() => {
+    localStorage.setItem("gameHistory", JSON.stringify(history));
+  }, [history]);
 
   const handleStart = (selectedGenre, selectedReptitions) => {
     setGenre(selectedGenre);
@@ -39,7 +52,7 @@ const App = () => {
       elapsedTime: elapsedTime || 0,
       gameCleared: gameCleared || false,
     };
-    setHistory([...history, newEntry]);
+    setHistory([newEntry, ...history]); // Add new data to the top
     setGameState("result");
   };
 
