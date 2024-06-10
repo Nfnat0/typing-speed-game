@@ -1,47 +1,51 @@
-export const fetchSentence = async (genre) => {
-  try {
-    let url = "";
-
-    switch (genre) {
-      case "sayings":
+export const fetchSentence = async (genre, minLength = 30, maxLength = 100) => {
+  const fetchAndCheckLength = async () => {
+    try {
+      let url = "";
+      if (genre === "sayings") {
         url = "https://api.quotable.io/random";
-        break;
-      case "news":
-        // Use a free news API that doesn't require registration, such as the mock news API for example purposes
+      } else if (genre === "news") {
         url = "https://inshortsapi.vercel.app/news?category=technology";
-        break;
-      case "programming":
+      } else if (genre === "programming") {
         url = "https://programming-quotes-api.herokuapp.com/quotes/random";
-        break;
-      case "jokes":
+      } else if (genre === "jokes") {
         url = "https://v2.jokeapi.dev/joke/Any";
-        break;
-      case "advice":
+      } else if (genre === "advice") {
         url = "https://api.adviceslip.com/advice";
-        break;
-      default:
-        throw new Error("Invalid genre");
-    }
+      } else if (genre === "test") {
+        return "This is a test sentence for the typing game.";
+      }
 
-    const response = await fetch(url);
-    const data = await response.json();
+      const response = await fetch(url);
+      const data = await response.json();
 
-    switch (genre) {
-      case "sayings":
-        return data.content;
-      case "news":
-        return data.data[0].content;
-      case "programming":
-        return data.en;
-      case "jokes":
-        return data.setup ? `${data.setup} - ${data.delivery}` : data.joke;
-      case "advice":
-        return data.slip.advice;
-      default:
-        throw new Error("Invalid genre");
+      let sentence = "";
+      if (genre === "sayings") {
+        sentence = data.content || "Couldn't fetch saying.";
+      } else if (genre === "news") {
+        sentence = data.data[0].content || "Couldn't fetch news.";
+      } else if (genre === "programming") {
+        sentence = data.en || "Couldn't fetch programming quote.";
+      } else if (genre === "jokes") {
+        sentence = data.setup
+          ? `${data.setup} - ${data.delivery}`
+          : data.joke || "Couldn't fetch joke.";
+      } else if (genre === "advice") {
+        sentence = data.slip.advice || "Couldn't fetch advice.";
+      }
+
+      console.log(sentence, sentence.length);
+
+      if (sentence.length >= minLength && sentence.length <= maxLength) {
+        return sentence;
+      } else {
+        return await fetchAndCheckLength(); // Retry fetching if the sentence is too short
+      }
+    } catch (error) {
+      console.error("Error fetching sentence:", error);
+      return "Couldn't fetch sentence.";
     }
-  } catch (error) {
-    console.error("Error fetching sentence:", error);
-    return "Couldn't fetch sentence.";
-  }
+  };
+
+  return fetchAndCheckLength();
 };
