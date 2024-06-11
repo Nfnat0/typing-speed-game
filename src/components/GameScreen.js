@@ -158,6 +158,12 @@ const GameScreen = ({
 
   // Render the sentence with typed letters highlighted
   const renderSentence = () => {
+    const characterStyle = {
+      transform: "scale(-1, 1)", // Flip horizontally
+      display: "inline-block",
+      marginRight: "2px", // Optional: add some spacing between characters
+    };
+
     let typedIndex = 0;
     return sentences[currentSentenceIndex]?.split("").map((char, index) => {
       const isSpace = char === " ";
@@ -165,7 +171,10 @@ const GameScreen = ({
       if (!isSpace) typedIndex++;
 
       return (
-        <span key={index} style={{ color: isTyped ? "yellow" : "white" }}>
+        <span
+          key={index}
+          style={{ ...characterStyle, color: isTyped ? "yellow" : "white" }}
+        >
           {char}
         </span>
       );
