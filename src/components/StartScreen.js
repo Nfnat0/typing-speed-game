@@ -1,10 +1,20 @@
 // StartScreen.js
-import React, { useState } from "react";
-import "./StartScreen.css"; // Add a new CSS file for StartScreen-specific styles
+import React, { useState, useEffect } from "react";
+import "./StartScreen.css";
 
-const StartScreen = ({ onStart, onViewStatistics }) => {
-  const [genre, setGenre] = useState("file");
-  const [repetitions, setRepetitions] = useState(10);
+const StartScreen = ({
+  onStart,
+  onViewStatistics,
+  selectedGenre,
+  repetitions,
+}) => {
+  const [genre, setGenre] = useState(selectedGenre);
+  const [repetitionsCount, setRepetitionsCount] = useState(repetitions);
+
+  useEffect(() => {
+    setGenre(selectedGenre);
+    setRepetitionsCount(repetitions);
+  }, [selectedGenre, repetitions]);
 
   const handleChangeGenre = (event) => {
     setGenre(event.target.value);
@@ -12,11 +22,11 @@ const StartScreen = ({ onStart, onViewStatistics }) => {
 
   const handleChangeRepetitions = (event) => {
     const value = Math.min(Math.max(Number(event.target.value), 1), 20);
-    setRepetitions(value);
+    setRepetitionsCount(value);
   };
 
   const handleStart = () => {
-    onStart(genre, repetitions);
+    onStart(genre, repetitionsCount);
   };
 
   return (
@@ -48,7 +58,7 @@ const StartScreen = ({ onStart, onViewStatistics }) => {
             <label htmlFor="repetitions">Select Repetitions : </label>
             <select
               className="repetitions-dropdown"
-              value={repetitions}
+              value={repetitionsCount}
               onChange={handleChangeRepetitions}
             >
               {Array.from({ length: 20 }, (_, i) => i + 1).map((value) => (

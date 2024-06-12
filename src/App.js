@@ -8,8 +8,8 @@ import StatisticsScreen from "./components/StatisticsScreen";
 
 const App = () => {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'result', 'statistics'
-  const [genre, setGenre] = useState("sayings");
-  const [repetitions, setRepetitions] = useState(1);
+  const [genre, setGenre] = useState("file1");
+  const [repetitions, setRepetitions] = useState(15);
   const [history, setHistory] = useState([]); // Store game history
   const inputRef = useRef(null);
 
@@ -73,12 +73,33 @@ const App = () => {
     setHistory([]);
   };
 
+  // Handle key event for Enter key
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        if (gameState === "start") {
+          handleStart(genre, repetitions);
+        } else if (gameState === "result") {
+          handleRestart();
+        } else if (gameState === "statistics") {
+          handleBackToStart();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [gameState, genre, repetitions]);
+
   return (
     <div className="app">
       {gameState === "start" && (
         <StartScreen
           onStart={handleStart}
           onViewStatistics={handleViewStatistics}
+          selectedGenre={genre}
+          repetitions={repetitions}
         />
       )}
       {gameState === "playing" && (
