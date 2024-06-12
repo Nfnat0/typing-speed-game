@@ -1,4 +1,6 @@
-export const fetchSentence = async (genre, minLength = 30, maxLength = 100) => {
+let fileContentCache = null;
+
+export const fetchSentence = async (genre, minLength = 30, maxLength = 120) => {
   const fetchAndCheckLength = async () => {
     try {
       let url = "";
@@ -7,23 +9,40 @@ export const fetchSentence = async (genre, minLength = 30, maxLength = 100) => {
       } else if (genre === "news") {
         url = "https://inshortsapi.vercel.app/news?category=technology";
       } else if (genre === "programming") {
-        url = "https://programming-quotes-api.herokuapp.com/quotes/random";
+        url = "https://programming-quotes-api.herokuapp.com/Quotes/random";
       } else if (genre === "jokes") {
         url = "https://v2.jokeapi.dev/joke/Any";
       } else if (genre === "advice") {
         url = "https://api.adviceslip.com/advice";
+      } else if (genre === "file") {
+        url = "/words.txt";
       } else if (genre === "test") {
         return "This is a test sentence for the typing game.";
       }
 
+      if (genre === "file") {
+        if (!fileContentCache) {
+          const response = await fetch(url);
+          const data = await response.text();
+          fileContentCache = data.split("\n");
+        }
+        if (fileContentCache.length > 0) {
+          return fileContentCache[
+            Math.floor(Math.random() * fileContentCache.length)
+          ];
+        } else {
+          return "No suitable text found in file.";
+        }
+      }
+
       const response = await fetch(url);
       const data = await response.json();
-
       let sentence = "";
+
       if (genre === "sayings") {
         sentence = data.content || "Couldn't fetch saying.";
       } else if (genre === "news") {
-        sentence = data.data[0].content || "Couldn't fetch news.";
+        sentence = data.data[0].content.split(".")[0] || "Couldn't fetch news.";
       } else if (genre === "programming") {
         sentence = data.en || "Couldn't fetch programming quote.";
       } else if (genre === "jokes") {
