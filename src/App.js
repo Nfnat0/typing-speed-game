@@ -68,6 +68,11 @@ const App = () => {
     setGameState("start");
   };
 
+  const handleClearHistory = () => {
+    localStorage.removeItem("gameHistory");
+    setHistory([]);
+  };
+
   return (
     <div className="app">
       {gameState === "start" && (
@@ -93,7 +98,11 @@ const App = () => {
         />
       )}
       {gameState === "statistics" && (
-        <StatisticsScreen history={history} onBackToStart={handleBackToStart} />
+        <StatisticsScreen
+          history={history}
+          onBackToStart={handleBackToStart}
+          onClearHistory={handleClearHistory}
+        />
       )}
     </div>
   );

@@ -1,3 +1,33 @@
+.statistics-screen .info {
+  flex: 0 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.statistics-screen .title {
+  flex: 1;
+  text-align: center;
+}
+
+.clear-button {
+  position: absolute;
+  right: 0;
+  background: #c46021;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: background 0.3s ease;
+}
+
+.clear-button:hover {
+  background: #c85f1d;
+}
+
 .statistics-screen table {
   width: 100%;
   border-collapse: collapse;

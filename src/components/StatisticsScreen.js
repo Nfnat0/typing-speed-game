@@ -3,9 +3,9 @@ import React from "react";
 import "./StatisticsScreen.css";
 import { CSVLink } from "react-csv";
 
-const StatisticsScreen = ({ history, onBackToStart }) => {
+const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
   const csvData = history.map((entry) => ({
-    "Date and Time": entry.date.toLocaleString(),
+    "Date and Time": `${entry.date.toLocaleDateString()} ${entry.date.toLocaleTimeString()}`,
     Score: entry.score,
     "Accuracy (%)": entry.accuracy,
     "Total Characters": entry.totalLetters,
@@ -23,9 +23,12 @@ const StatisticsScreen = ({ history, onBackToStart }) => {
   return (
     <div className="screen statistics-screen">
       <div className="info">
-        <h3>Game Statistics</h3>
+        <h1 className="title">Game Statistics</h1>
+        <button className="clear-button" onClick={onClearHistory}>
+          Clear
+        </button>
       </div>
-      <div className="main">
+      <div className="main table-container">
         <table>
           <thead>
             <tr>
@@ -40,7 +43,7 @@ const StatisticsScreen = ({ history, onBackToStart }) => {
           <tbody>
             {history.map((entry, index) => (
               <tr key={index}>
-                <td>{entry.date.toLocaleString()}</td>
+                <td>{`${entry.date.toLocaleDateString()} ${entry.date.toLocaleTimeString()}`}</td>
                 <td>{entry.score}</td>
                 <td>{entry.accuracy}</td>
                 <td>{entry.totalLetters}</td>
