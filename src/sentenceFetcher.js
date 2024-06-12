@@ -16,11 +16,13 @@ export const fetchSentence = async (genre, minLength = 30, maxLength = 120) => {
         url = "https://api.adviceslip.com/advice";
       } else if (genre === "file") {
         url = "/words.txt";
+      } else if (genre === "file2") {
+        url = "/words2.txt";
       } else if (genre === "test") {
         return "This is a test sentence for the typing game.";
       }
 
-      if (genre === "file") {
+      if (genre === "file" || genre === "file2") {
         if (!fileContentCache) {
           const response = await fetch(url);
           const data = await response.text();

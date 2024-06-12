@@ -35,6 +35,7 @@ const StartScreen = ({ onStart, onViewStatistics }) => {
               onChange={handleChangeGenre}
             >
               <option value="file">File</option>
+              <option value="file2">File2</option>
               <option value="sayings">Sayings</option>
               <option value="news">News</option>
               <option value="programming">Programming</option>
