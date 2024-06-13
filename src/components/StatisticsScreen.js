@@ -5,7 +5,7 @@ import { CSVLink } from "react-csv";
 
 const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
   const csvData = history.map((entry) => ({
-    "Date and Time": entry.date,
+    "Date and Time": entry.date.toLocaleString("ja-JP"),
     Score: entry.score,
     "Accuracy (%)": entry.accuracy,
     "Total Characters": entry.totalLetters,
@@ -43,7 +43,7 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
           <tbody>
             {history.map((entry, index) => (
               <tr key={index}>
-                <td>{entry.date}</td>
+                <td>{entry.date.toLocaleString("ja-JP")}</td>
                 <td>{entry.score}</td>
                 <td>{entry.accuracy}</td>
                 <td>{entry.totalLetters}</td>
