@@ -44,7 +44,7 @@ const App = () => {
     gameCleared
   ) => {
     const newEntry = {
-      date: new Date(),
+      date: new Date().toLocaleString("ja-JP"),
       score: score || 0,
       accuracy: ((correctLetters / totalLetters) * 100 || 0).toFixed(2),
       totalLetters: totalLetters || 0,
