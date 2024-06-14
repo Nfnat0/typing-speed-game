@@ -112,6 +112,7 @@ const GameScreen = ({
   // Handle key press events
   const handleKeyPress = useCallback(
     (e) => {
+      if (e.key.toLowerCase() === "enter") return; // Ignore Enter key (prevents form submission
       const char = e.key.toLowerCase();
       setTotalLetters((prevTotalLetters) => prevTotalLetters + 1);
 
