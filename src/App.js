@@ -1,10 +1,11 @@
-// App.js
 import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import StartScreen from "./components/StartScreen";
 import GameScreen from "./components/GameScreen";
 import ResultScreen from "./components/ResultScreen";
 import StatisticsScreen from "./components/StatisticsScreen";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
 
 const App = () => {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'result', 'statistics'
@@ -93,39 +94,44 @@ const App = () => {
   }, [gameState, genre, repetitions]);
 
   return (
-    <div className="app">
-      {gameState === "start" && (
-        <StartScreen
-          onStart={handleStart}
-          onViewStatistics={handleViewStatistics}
-          selectedGenre={genre}
-          repetitions={repetitions}
-        />
+    <Authenticator>
+      {({ signOut, user }) => (
+        <div className="app">
+          {gameState === "start" && (
+            <StartScreen
+              onStart={handleStart}
+              onViewStatistics={handleViewStatistics}
+              selectedGenre={genre}
+              repetitions={repetitions}
+            />
+          )}
+          {gameState === "playing" && (
+            <GameScreen
+              genre={genre}
+              repetitions={repetitions}
+              onGameOver={handleGameOver}
+              inputRef={inputRef}
+              onRestart={handleRestart}
+            />
+          )}
+          {gameState === "result" && (
+            <ResultScreen
+              history={history}
+              onRestart={handleRestart}
+              onViewStatistics={handleViewStatistics}
+            />
+          )}
+          {gameState === "statistics" && (
+            <StatisticsScreen
+              history={history}
+              onBackToStart={handleBackToStart}
+              onClearHistory={handleClearHistory}
+            />
+          )}
+          <button onClick={signOut}>Sign out</button>
+        </div>
       )}
-      {gameState === "playing" && (
-        <GameScreen
-          genre={genre}
-          repetitions={repetitions}
-          onGameOver={handleGameOver}
-          inputRef={inputRef}
-          onRestart={handleRestart}
-        />
-      )}
-      {gameState === "result" && (
-        <ResultScreen
-          history={history}
-          onRestart={handleRestart}
-          onViewStatistics={handleViewStatistics}
-        />
-      )}
-      {gameState === "statistics" && (
-        <StatisticsScreen
-          history={history}
-          onBackToStart={handleBackToStart}
-          onClearHistory={handleClearHistory}
-        />
-      )}
-    </div>
+    </Authenticator>
   );
 };
 
