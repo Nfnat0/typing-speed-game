@@ -7,6 +7,15 @@ import StatisticsScreen from "./components/StatisticsScreen";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 
+const Header = ({ user, signOut }) => {
+  return (
+    <div className="header">
+      <span>{user ? user.username : "Guest user"}</span>
+      {user && <button onClick={signOut}>Sign out</button>}
+    </div>
+  );
+};
+
 const App = () => {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'result', 'statistics'
   const [genre, setGenre] = useState("file1");
@@ -94,9 +103,10 @@ const App = () => {
   }, [gameState, genre, repetitions]);
 
   return (
-    <Authenticator>
+    <Authenticator signUpAttributes={["email"]}>
       {({ signOut, user }) => (
         <div className="app">
+          <Header user={user} signOut={signOut} />
           {gameState === "start" && (
             <StartScreen
               onStart={handleStart}
@@ -128,7 +138,6 @@ const App = () => {
               onClearHistory={handleClearHistory}
             />
           )}
-          <button onClick={signOut}>Sign out</button>
         </div>
       )}
     </Authenticator>
