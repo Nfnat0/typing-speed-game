@@ -19,11 +19,44 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
+
 .app {
-  height: 600px;
+  height: 800px;
   width: 1200px;
   max-width: 1200px;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.header span {
+  font-size: 35px;
+  color: #fff;
+}
+
+.header button {
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border: 1px solid #00f2fe;
+  border-radius: 25px;
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  color: #fff;
+  transition: background 0.3s ease;
+  font-weight: bold;
+}
+
+.header button:hover {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+}
+
 .screen {
   height: 85%;
   display: flex;
