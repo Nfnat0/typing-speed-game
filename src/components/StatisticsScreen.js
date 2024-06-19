@@ -7,9 +7,6 @@ import { checkLoginStatus, syncWithCloudAPI } from "../api";
 const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
   const [highScore, setHighScore] = useState(0);
   const [totalCharacters, setTotalCharacters] = useState(0);
-  // const [syncMessage, setSyncMessage] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState("");
 
   useEffect(() => {
     const calculateHighScore = () => {
@@ -41,20 +38,17 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
   const handleSync = async () => {
     const loginStatus = await checkLoginStatus();
     if (!loginStatus.isLoggedIn) {
-      setDialogMessage("You need to be logged in to sync.");
-      setIsDialogOpen(true);
+      alert("You need to be logged in to sync.");
       return;
     }
 
     const syncCount = localStorage.getItem("syncCount") || 0;
     if (syncCount >= 5) {
-      setDialogMessage("You can sync up to 5 times a day.");
-      setIsDialogOpen(true);
+      alert("You can sync up to 5 times a day.");
       return;
     }
 
-    setDialogMessage("Synchronizing with cloud...");
-    setIsDialogOpen(true);
+    alert("Synchronizing with cloud...");
 
     try {
       const data = await syncWithCloudAPI(
@@ -64,16 +58,12 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
       );
       setHighScore(data.highScore);
       setTotalCharacters(data.totalCharacters);
-      localStorage.setItem("syncCount", syncCount + 1);
-      setDialogMessage("Synchronization successful");
+      localStorage.setItem("syncCount", parseInt(syncCount, 10) + 1);
+      alert("Synchronization successful");
     } catch (error) {
       console.error("Error during synchronization:", error);
-      setDialogMessage("Synchronization failed");
+      alert("Synchronization failed");
     }
-  };
-
-  const closeDialog = () => {
-    setIsDialogOpen(false);
   };
 
   const csvData = history.map((entry) => ({
@@ -141,15 +131,6 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
           Sync with Cloud
         </button>
       </div>
-      {/* {syncMessage && <p className="sync-message">{syncMessage}</p>} */}
-      {isDialogOpen && (
-        <div className="dialog">
-          <div className="dialog-content">
-            <p>{dialogMessage}</p>
-            <button onClick={closeDialog}>Close</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
