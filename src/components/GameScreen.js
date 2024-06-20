@@ -72,7 +72,12 @@ const GameScreen = ({
       sentences.length === repetitions &&
       currentSentenceIndex >= repetitions - 1
     ) {
-      const score = calculateScore(elapsedTime, totalLetters, correctLetters);
+      const score = calculateScore(
+        elapsedTime,
+        totalLetters,
+        correctLetters,
+        mistakes
+      );
       onGameOver(
         score,
         correctLetters,
@@ -97,7 +102,12 @@ const GameScreen = ({
   // Handle game over when time runs out
   useEffect(() => {
     if (time <= 0) {
-      const score = calculateScore(elapsedTime, totalLetters, correctLetters);
+      const score = calculateScore(
+        elapsedTime,
+        totalLetters,
+        correctLetters,
+        mistakes
+      );
       onGameOver(
         score,
         correctLetters,
@@ -174,7 +184,12 @@ const GameScreen = ({
   };
 
   const forceEndGame = () => {
-    const score = calculateScore(elapsedTime, totalLetters, correctLetters);
+    const score = calculateScore(
+      elapsedTime,
+      totalLetters,
+      correctLetters,
+      mistakes
+    );
     onGameOver(
       score,
       correctLetters,
