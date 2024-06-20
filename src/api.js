@@ -10,7 +10,7 @@ export const checkLoginStatus = async () => {
   }
 };
 
-export const syncWithCloudAPI = async (highScore, totalCharacters, userId) => {
+export const syncWithCloudAPI = async (highScore, userId) => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const response = await fetch(apiUrl, {
@@ -18,7 +18,7 @@ export const syncWithCloudAPI = async (highScore, totalCharacters, userId) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ highScore, totalCharacters, userId }),
+    body: JSON.stringify({ highScore, userId }),
   });
 
   if (!response.ok) {

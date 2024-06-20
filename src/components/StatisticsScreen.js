@@ -6,7 +6,6 @@ import { checkLoginStatus, syncWithCloudAPI } from "../api";
 
 const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
   const [highScore, setHighScore] = useState(0);
-  const [totalCharacters, setTotalCharacters] = useState(0);
 
   useEffect(() => {
     const calculateHighScore = () => {
@@ -17,16 +16,7 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
       setHighScore(maxScore);
     };
 
-    const calculateTotalCharacters = () => {
-      const total =
-        history.length > 0
-          ? history.reduce((sum, entry) => sum + entry.totalLetters, 0)
-          : 0;
-      setTotalCharacters(total);
-    };
-
     calculateHighScore();
-    calculateTotalCharacters();
   }, [history]);
 
   const handleClear = () => {
@@ -51,13 +41,8 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
     alert("Synchronizing with cloud...");
 
     try {
-      const data = await syncWithCloudAPI(
-        highScore,
-        totalCharacters,
-        loginStatus.userId
-      );
+      const data = await syncWithCloudAPI(highScore, loginStatus.userId);
       setHighScore(data.highScore);
-      setTotalCharacters(data.totalCharacters);
       localStorage.setItem("syncCount", parseInt(syncCount, 10) + 1);
       alert("Synchronization successful");
     } catch (error) {
@@ -85,9 +70,7 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
   return (
     <div className="screen statistics-screen">
       <div className="info">
-        <h1 className="title">
-          High Score: {highScore} &nbsp; Total Characters: {totalCharacters}
-        </h1>
+        <h1 className="title">High Score: {highScore}</h1>
         <button className="clear-button" onClick={handleClear}>
           Clear
         </button>
