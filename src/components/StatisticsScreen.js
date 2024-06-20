@@ -42,7 +42,7 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
 
     try {
       const data = await syncWithCloudAPI(highScore, loginStatus.userId);
-      setHighScore(data.highScore);
+      setHighScore(data.HighScore);
       localStorage.setItem("syncCount", parseInt(syncCount, 10) + 1);
       alert("Synchronization successful");
     } catch (error) {
