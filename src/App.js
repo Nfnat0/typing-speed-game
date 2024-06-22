@@ -57,7 +57,7 @@ const App = () => {
       date: new Date().toLocaleString("ja-JP"),
       score: score || 0,
       accuracy: ((correctLetters / totalLetters) * 100 || 0).toFixed(2),
-      totalLetters: totalLetters || 0,
+      correctLetters: correctLetters || 0,
       mistakes: mistakes || 0,
       elapsedTime: elapsedTime || 0,
       gameCleared: gameCleared || false,
