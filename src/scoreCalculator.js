@@ -5,5 +5,7 @@ export const calculateScore = (
   mistakes
 ) => {
   const accuracy = (correctLetters / totalLetters) * 100;
-  return Math.round(((correctLetters - mistakes) * accuracy) / elapsedTime);
+  return Math.round(
+    (Math.pow(correctLetters - mistakes, 1.1) * accuracy) / elapsedTime
+  );
 };
