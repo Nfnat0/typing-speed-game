@@ -22,8 +22,8 @@ const ResultScreen = ({ history, onRestart, onViewStatistics }) => {
               <td>{latestEntry.accuracy}%</td>
             </tr>
             <tr>
-              <td>Total Characters:</td>
-              <td>{latestEntry.totalLetters}</td>
+              <td>Correct Letters:</td>
+              <td>{latestEntry.correctLetters}</td>
             </tr>
             <tr>
               <td>Mistakes:</td>

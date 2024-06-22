@@ -55,7 +55,7 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
     "Date and Time": entry.date.toLocaleString("ja-JP"),
     Score: entry.score,
     "Accuracy (%)": entry.accuracy,
-    "Total Characters": entry.totalLetters,
+    "Correct Letters": entry.correctLetters,
     "Elapsed Time (s)": entry.elapsedTime,
   }));
 
@@ -63,7 +63,7 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
     { label: "Date and Time", key: "Date and Time" },
     { label: "Score", key: "Score" },
     { label: "Accuracy (%)", key: "Accuracy (%)" },
-    { label: "Total Characters", key: "Total Characters" },
+    { label: "Correct Letters", key: "Correct Letters" },
     { label: "Elapsed Time (s)", key: "Elapsed Time (s)" },
   ];
 
@@ -93,7 +93,7 @@ const StatisticsScreen = ({ history, onBackToStart, onClearHistory }) => {
                 <td>{entry.date.toLocaleString("ja-JP")}</td>
                 <td>{entry.score}</td>
                 <td>{entry.accuracy}</td>
-                <td>{entry.totalLetters}</td>
+                <td>{entry.correctLetters}</td>
                 <td>{entry.mistakes}</td>
                 <td>{entry.elapsedTime}</td>
               </tr>
