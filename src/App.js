@@ -20,6 +20,7 @@ const App = () => {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'result', 'statistics'
   const [genre, setGenre] = useState("file1");
   const [repetitions, setRepetitions] = useState(15);
+  const [selectedMode, setSelectedMode] = useState("normal");
   const [history, setHistory] = useState([]); // Store game history
   const inputRef = useRef(null);
 
@@ -36,9 +37,10 @@ const App = () => {
     localStorage.setItem("gameHistory", JSON.stringify(history));
   }, [history]);
 
-  const handleStart = (selectedGenre, selectedReptitions) => {
+  const handleStart = (selectedGenre, selectedReptitions, mode) => {
     setGenre(selectedGenre);
     setRepetitions(selectedReptitions);
+    setSelectedMode(mode);
     setGameState("playing");
     if (inputRef.current) {
       inputRef.current.focus();
@@ -61,6 +63,7 @@ const App = () => {
       mistakes: mistakes || 0,
       elapsedTime: elapsedTime || 0,
       gameCleared: gameCleared || false,
+      mode: selectedMode,
     };
     setHistory([newEntry, ...history]); // Add new data to the top
     setGameState("result");
@@ -83,25 +86,6 @@ const App = () => {
     setHistory([]);
   };
 
-  // Handle key event for Enter key
-  useEffect(() => {
-    const handleKeyPress = (event) => {
-      if (event.key === "Enter") {
-        if (gameState === "start") {
-          handleStart(genre, repetitions);
-        } else if (gameState === "result") {
-          handleRestart();
-        } else if (gameState === "statistics") {
-          handleBackToStart();
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyPress);
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [gameState, genre, repetitions]);
-
   return (
     <Authenticator signUpAttributes={["email"]}>
       {({ signOut, user }) => (
@@ -113,12 +97,14 @@ const App = () => {
               onViewStatistics={handleViewStatistics}
               selectedGenre={genre}
               repetitions={repetitions}
+              selectedMode={selectedMode}
             />
           )}
           {gameState === "playing" && (
             <GameScreen
               genre={genre}
               repetitions={repetitions}
+              mode={selectedMode}
               onGameOver={handleGameOver}
               inputRef={inputRef}
               onRestart={handleRestart}

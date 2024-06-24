@@ -7,9 +7,11 @@ const StartScreen = ({
   onViewStatistics,
   selectedGenre,
   repetitions,
+  selectedMode,
 }) => {
   const [genre, setGenre] = useState(selectedGenre);
   const [repetitionsCount, setRepetitionsCount] = useState(repetitions);
+  const [mode, setMode] = useState(selectedMode);
 
   useEffect(() => {
     setGenre(selectedGenre);
@@ -26,7 +28,7 @@ const StartScreen = ({
   };
 
   const handleStart = () => {
-    onStart(genre, repetitionsCount);
+    onStart(genre, repetitionsCount, mode);
   };
 
   return (
@@ -38,7 +40,7 @@ const StartScreen = ({
         <h3>Test your typing skills and improve your speed.</h3>
         <div className="containers">
           <div className="dropdown-container">
-            <label htmlFor="genre">Select Genre : </label>
+            <label htmlFor="genre">Genre : </label>
             <select
               className="genre-dropdown"
               value={genre}
@@ -55,7 +57,7 @@ const StartScreen = ({
             </select>
           </div>
           <div className="dropdown-container">
-            <label htmlFor="repetitions">Select Repetitions : </label>
+            <label htmlFor="repetitions">Repetitions : </label>
             <select
               className="repetitions-dropdown"
               value={repetitionsCount}
@@ -66,6 +68,17 @@ const StartScreen = ({
                   {value}
                 </option>
               ))}
+            </select>
+          </div>
+          <div className="dropdown-container">
+            <label htmlFor="mode">Mode : </label>
+            <select
+              className="mode-dropdown"
+              value={mode}
+              onChange={(e) => setMode(e.target.value)}
+            >
+              <option value="normal">Normal</option>
+              <option value="phantom">Phantom</option>
             </select>
           </div>
         </div>

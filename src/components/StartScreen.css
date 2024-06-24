@@ -4,7 +4,8 @@
 }
 
 .genre-dropdown,
-.repetitions-dropdown {
+.repetitions-dropdown,
+.mode-dropdown {
   padding: 10px;
   font-size: 20px;
   font-weight: bold;
@@ -19,7 +20,8 @@
 }
 
 .genre-dropdown:hover,
-.repetitions-dropdown:hover {
+.repetitions-dropdown:hover,
+.mode-dropdown:hover {
   background: linear-gradient(to right, #4facfe, #00f2fe);
 }
 

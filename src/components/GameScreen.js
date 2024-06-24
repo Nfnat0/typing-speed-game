@@ -10,8 +10,11 @@ const GameScreen = ({
   onGameOver,
   inputRef,
   onRestart,
+  mode,
 }) => {
   const [sentences, setSentences] = useState([]);
+  const [modifiedSentences, setModifiedSentences] = useState([]);
+  const [replacementPositions, setReplacementPositions] = useState([]);
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [currentSentence, setCurrentSentence] = useState("");
   const [time, setTime] = useState(60); // Set the game duration in seconds
@@ -43,11 +46,21 @@ const GameScreen = ({
       setError(null);
       try {
         const fetchedSentences = [];
+        const transformedSentences = [];
+        const positions = [];
         for (let i = 0; i < repetitions; i++) {
           const sentence = await fetchSentence(genre);
           fetchedSentences.push(sentence || "Error fetching sentence.");
+          const { modifiedSentence, replacementPositions } =
+            transformSentenceForPhantomMode(
+              sentence || "Error fetching sentence."
+            );
+          transformedSentences.push(modifiedSentence);
+          positions.push(replacementPositions);
         }
         setSentences(fetchedSentences);
+        setModifiedSentences(transformedSentences);
+        setReplacementPositions(positions);
         setCurrentSentence(
           fetchedSentences[0].replace(/\s/g, "").toLowerCase()
         );
@@ -167,17 +180,40 @@ const GameScreen = ({
     }
   }, [inputRef]);
 
+  // Function to transform the sentence for phantom mode
+  const transformSentenceForPhantomMode = (sentence) => {
+    const words = sentence.split(" ");
+    const replacementPositions = [];
+    const modifiedWords = words.map((word) => {
+      if (word.length < 3) {
+        replacementPositions.push(-1);
+        return word;
+      }
+      const index = Math.floor(Math.random() * (word.length - 2)) + 1;
+      replacementPositions.push(index);
+      return word.slice(0, index) + "?" + word.slice(index + 1);
+    });
+    return { modifiedSentence: modifiedWords.join(" "), replacementPositions };
+  };
+
   // Render the sentence with typed letters highlighted
   const renderSentence = () => {
     let typedIndex = 0;
-    return sentences[currentSentenceIndex]?.split("").map((char, index) => {
+    const sentenceToRender =
+      mode === "phantom"
+        ? modifiedSentences[currentSentenceIndex]
+        : sentences[currentSentenceIndex];
+    const originalSentence = sentences[currentSentenceIndex];
+    const positions = replacementPositions[currentSentenceIndex] || [];
+    return sentenceToRender?.split("").map((char, index) => {
       const isSpace = char === " ";
       const isTyped = !isSpace && typedIndex < inputValue.length;
       if (!isSpace) typedIndex++;
-
+      const isRevealed =
+        positions.includes(index) && inputValue.length > typedIndex - 1;
       return (
         <span key={index} style={{ color: isTyped ? "yellow" : "white" }}>
-          {char}
+          {isRevealed ? originalSentence[index] : char}
         </span>
       );
     });
