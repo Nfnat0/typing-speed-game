@@ -7,7 +7,7 @@ export const fetchSentence = async (genre, minLength = 30, maxLength = 120) => {
       if (genre === "sayings") {
         url = "https://api.quotable.io/random";
       } else if (genre === "news") {
-        url = "https://inshortsapi.vercel.app/news?category=technology";
+        url = "/news.txt";
       } else if (genre === "programming") {
         url = "https://programming-quotes-api.herokuapp.com/Quotes/random";
       } else if (genre === "jokes") {
@@ -22,16 +22,30 @@ export const fetchSentence = async (genre, minLength = 30, maxLength = 120) => {
         return "This is a test sentence for the typing game.";
       }
 
-      if (genre === "file1" || genre === "file2") {
+      let usedIndices = new Set();
+
+      if (["news", "file1", "file2"].includes(genre)) {
         if (!fileContentCache) {
           const response = await fetch(url);
           const data = await response.text();
           fileContentCache = data.split("\n");
         }
         if (fileContentCache.length > 0) {
-          return fileContentCache[
-            Math.floor(Math.random() * fileContentCache.length)
-          ];
+          let index;
+          do {
+            index = Math.floor(Math.random() * fileContentCache.length);
+          } while (
+            usedIndices.has(index) &&
+            usedIndices.size < fileContentCache.length
+          );
+
+          usedIndices.add(index);
+
+          if (usedIndices.size >= fileContentCache.length) {
+            usedIndices.clear(); // reset when all indexs are used
+          }
+
+          return fileContentCache[index];
         } else {
           return "No suitable text found in file.";
         }
