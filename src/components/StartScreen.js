@@ -46,14 +46,9 @@ const StartScreen = ({
               value={genre}
               onChange={handleChangeGenre}
             >
-              <option value="file">File</option>
-              <option value="file2">File2</option>
-              <option value="sayings">Sayings</option>
-              <option value="news">News</option>
-              <option value="programming">Programming</option>
-              <option value="jokes">Jokes</option>
-              <option value="advice">Advice</option>
-              <option value="test">Test</option>
+              <option value="science">Science</option>
+              <option value="technology">Technology</option>
+              <option value="business">Business</option>
             </select>
           </div>
           <div className="dropdown-container">

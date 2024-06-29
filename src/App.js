@@ -18,8 +18,8 @@ const Header = ({ user, signOut }) => {
 
 const App = () => {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'result', 'statistics'
-  const [genre, setGenre] = useState("file1");
-  const [repetitions, setRepetitions] = useState(15);
+  const [genre, setGenre] = useState("business");
+  const [repetitions, setRepetitions] = useState(3);
   const [selectedMode, setSelectedMode] = useState("normal");
   const [history, setHistory] = useState([]); // Store game history
   const inputRef = useRef(null);

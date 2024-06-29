@@ -45,19 +45,18 @@ const GameScreen = ({
       setLoading(true);
       setError(null);
       try {
-        const fetchedSentences = [];
+        const fetchedSentences = await fetchSentence(genre, repetitions);
+        if (fetchedSentences.length === 0) {
+          fetchedSentences.push("Error fetching sentence.");
+        }
         const transformedSentences = [];
         const positions = [];
-        for (let i = 0; i < repetitions; i++) {
-          const sentence = await fetchSentence(genre);
-          fetchedSentences.push(sentence || "Error fetching sentence.");
+        fetchedSentences.forEach((sentence) => {
           const { modifiedSentence, replacementPositions } =
-            transformSentenceForPhantomMode(
-              sentence || "Error fetching sentence."
-            );
+            transformSentenceForPhantomMode(sentence);
           transformedSentences.push(modifiedSentence);
           positions.push(replacementPositions);
-        }
+        });
         setSentences(fetchedSentences);
         setModifiedSentences(transformedSentences);
         setReplacementPositions(positions);
@@ -135,7 +134,7 @@ const GameScreen = ({
   // Handle key press events
   const handleKeyPress = useCallback(
     (e) => {
-      if (e.key.toLowerCase() === "enter") return; // Ignore Enter key (prevents form submission
+      if (e.key.toLowerCase() === "enter") return; // Ignore Enter key (prevents form submission)
       const char = e.key.toLowerCase();
       setTotalLetters((prevTotalLetters) => prevTotalLetters + 1);
 
