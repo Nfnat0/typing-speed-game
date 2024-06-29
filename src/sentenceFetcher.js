@@ -27,9 +27,7 @@ const getFilePath = (date, genre) =>
   `${date.format("YYYY/MM/DD")}/${genre}.txt`;
 
 const containsDifficultString = (str) => {
-  // Add your logic to check if the string is difficult to input
-  // For example, this function can return true if the string contains special characters
-  const difficultPattern = /[^\w\s\d]/; // Example pattern, adjust as needed
+  const difficultPattern = /[^a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]/;
   return difficultPattern.test(str);
 };
 
