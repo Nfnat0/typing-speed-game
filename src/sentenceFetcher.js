@@ -9,55 +9,76 @@ const s3Client = new S3Client({
   },
 });
 
-export const fetchSentence = async (genre, repetitions) => {
+const fetchFileContent = async (bucketName, filePath) => {
+  const params = { Bucket: bucketName, Key: filePath };
+  const command = new GetObjectCommand(params);
+
   try {
-    const bucketName = process.env.REACT_APP_S3_NEWS_STORING_BUCKET_NAME;
-    if (!bucketName) {
-      console.error("Bucket name is not defined in the environment variables.");
-      return [];
-    }
-
-    const datePath = moment().format("YYYY/MM/DD");
-    const filePath = `${datePath}/${genre}.txt`;
-
-    console.log(`Fetching file from path: ${filePath}`);
-
-    const params = {
-      Bucket: bucketName,
-      Key: filePath,
-    };
-
-    const command = new GetObjectCommand(params);
     const data = await s3Client.send(command);
-
     const response = new Response(data.Body);
-    const fileContent = await response.text();
-
-    const lines = fileContent.split("\n").filter((line) => line.trim() !== "");
-
-    if (lines.length < repetitions) {
-      console.warn(
-        "The file does not contain enough lines for the requested repetitions."
-      );
-      return lines;
-    }
-
-    const selectedLines = [];
-    const usedIndices = new Set();
-
-    while (selectedLines.length < repetitions) {
-      const randomIndex = Math.floor(Math.random() * lines.length);
-      if (!usedIndices.has(randomIndex)) {
-        selectedLines.push(lines[randomIndex]);
-        usedIndices.add(randomIndex);
-      }
-    }
-
-    return selectedLines;
+    return await response.text();
   } catch (error) {
-    console.error("Error fetching sentences:", error);
-    return [];
+    console.error(`Error fetching file from path: ${filePath}`, error);
+    throw error;
   }
+};
+
+const getFilePath = (date, genre) =>
+  `${date.format("YYYY/MM/DD")}/${genre}.txt`;
+
+const containsDifficultString = (str) => {
+  // Add your logic to check if the string is difficult to input
+  // For example, this function can return true if the string contains special characters
+  const difficultPattern = /[^\w\s\d]/; // Example pattern, adjust as needed
+  return difficultPattern.test(str);
+};
+
+export const fetchSentence = async (genre, repetitions) => {
+  const bucketName = process.env.REACT_APP_S3_NEWS_STORING_BUCKET_NAME;
+  if (!bucketName) {
+    console.error("Bucket name is not defined in the environment variables.");
+    return "Error: Bucket name not defined.";
+  }
+
+  const today = moment();
+  let filePath = getFilePath(today, genre);
+
+  let fileContent;
+  try {
+    fileContent = await fetchFileContent(bucketName, filePath);
+  } catch (error) {
+    const yesterday = today.subtract(1, "day");
+    filePath = getFilePath(yesterday, genre);
+
+    try {
+      fileContent = await fetchFileContent(bucketName, filePath);
+    } catch (error) {
+      return "Error: Unable to fetch file from both today and yesterday's paths.";
+    }
+  }
+
+  const lines = fileContent.split("\n").filter((line) => line.trim() !== "");
+  if (lines.length < repetitions) {
+    console.warn(
+      "The file does not contain enough lines for the requested repetitions."
+    );
+    return lines;
+  }
+
+  const selectedLines = [];
+  const usedIndices = new Set();
+
+  while (selectedLines.length < repetitions) {
+    const randomIndex = Math.floor(Math.random() * lines.length);
+    const line = lines[randomIndex];
+
+    if (!usedIndices.has(randomIndex) && !containsDifficultString(line)) {
+      selectedLines.push(line);
+      usedIndices.add(randomIndex);
+    }
+  }
+
+  return selectedLines;
 };
 
 export default fetchSentence;
