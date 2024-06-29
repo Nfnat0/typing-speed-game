@@ -24,30 +24,28 @@ const GameScreen = ({
   const [inputValue, setInputValue] = useState("");
   const [mistakes, setMistakes] = useState(0);
   const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
   const sentenceFetched = useRef(false); // Ref to track if the sentence has been fetched
   const timerRef = useRef(null); // Ref to hold the timer
 
   // Timer logic
   useEffect(() => {
-    if (!loading && !error) {
+    if (!loading) {
       timerRef.current = setInterval(() => {
         setTime((prevTime) => prevTime - 1);
         setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
       }, 1000);
       return () => clearInterval(timerRef.current);
     }
-  }, [loading, error]);
+  }, [loading]);
 
   // Fetch sentences logic
   useEffect(() => {
     const fetchAndSetSentences = async () => {
       setLoading(true);
-      setError(null);
       try {
         const fetchedSentences = await fetchSentence(genre, repetitions);
         if (fetchedSentences.length === 0) {
-          fetchedSentences.push("Error fetching sentence.");
+          fetchedSentences.push("Error fetching sentence");
         }
         const transformedSentences = [];
         const positions = [];
@@ -66,7 +64,7 @@ const GameScreen = ({
         setLoading(false);
       } catch (error) {
         console.error("Error fetching sentences:", error);
-        setError("Error fetching sentences. Please try again.");
+        setSentences(["Error fetching sentences"]);
         setLoading(false);
       }
     };
@@ -239,14 +237,6 @@ const GameScreen = ({
     return (
       <div className="screen game-screen">
         <div className="loading">Loading...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="screen game-screen">
-        <div className="error">{error}</div>
       </div>
     );
   }
