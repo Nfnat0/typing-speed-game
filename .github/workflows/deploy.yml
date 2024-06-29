@@ -29,7 +29,9 @@ jobs:
           REACT_APP_APP_CLIENT_ID: ${{ secrets.REACT_APP_APP_CLIENT_ID }}
           REACT_APP_IDENTITY_POOL_ID: ${{ secrets.REACT_APP_IDENTITY_POOL_ID }}
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-          REACT_APP_S3_BUCKET_NAME: ${{ secrets.REACT_APP_S3_NEWS_STORING_BUCKET_NAME }}
+          REACT_APP_S3_NEWS_STORING_BUCKET_NAME: ${{ secrets.REACT_APP_S3_NEWS_STORING_BUCKET_NAME }}
+          REACT_APP_AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          REACT_APP_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: CI=false npm run build
 
       - name: Configure AWS credentials
