@@ -27,7 +27,7 @@ const getFilePath = (date, genre) =>
   `${date.format("YYYY/MM/DD")}/${genre}.txt`;
 
 const containsDifficultString = (str) => {
-  const difficultPattern = /[^a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]/;
+  const difficultPattern = /[^a-zA-Z0-9\s!'@#$%^&*(),.?":{}|<>]/;
   return difficultPattern.test(str);
 };
 
