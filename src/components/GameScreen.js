@@ -17,7 +17,6 @@ const GameScreen = ({
   const [replacementPositions, setReplacementPositions] = useState([]);
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [currentSentence, setCurrentSentence] = useState("");
-  const [time, setTime] = useState(60); // Set the game duration in seconds
   const [elapsedTime, setElapsedTime] = useState(0);
   const [correctLetters, setCorrectLetters] = useState(0);
   const [totalLetters, setTotalLetters] = useState(0);
@@ -31,7 +30,6 @@ const GameScreen = ({
   useEffect(() => {
     if (!loading) {
       timerRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
         setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
       }, 1000);
       return () => clearInterval(timerRef.current);
@@ -108,26 +106,6 @@ const GameScreen = ({
     repetitions,
     mistakes,
   ]);
-
-  // Handle game over when time runs out
-  useEffect(() => {
-    if (time <= 0) {
-      const score = calculateScore(
-        elapsedTime,
-        totalLetters,
-        correctLetters,
-        mistakes
-      );
-      onGameOver(
-        score,
-        correctLetters,
-        totalLetters,
-        mistakes,
-        elapsedTime,
-        false
-      ); // Time's up
-    }
-  }, [time, elapsedTime, onGameOver, totalLetters, correctLetters, mistakes]);
 
   // Handle key press events
   const handleKeyPress = useCallback(
@@ -244,11 +222,6 @@ const GameScreen = ({
   return (
     <div className="screen game-screen">
       <div className="info">
-        <div>
-          <h3>
-            Time: <span style={{ color: "yellow" }}>{time}</span>s
-          </h3>
-        </div>
         <div>
           <h3>Questions Remaining: {repetitions - currentSentenceIndex}</h3>
         </div>
